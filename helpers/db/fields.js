@@ -10,12 +10,12 @@ class Create {
 
   fromString(item) {
     this.schema.add(this.addToSchema(item));
-    this.indexes[`${item}_fuzzy`] = 'text';
+    this.indexes[`${item}_fuzzy`] = "text";
   }
 
   fromObject(item) {
     this.schema.add(this.addToSchema(item.name));
-    this.indexes[`${item.name}_fuzzy`] = 'text';
+    this.indexes[`${item.name}_fuzzy`] = "text";
     if (item.weight) {
       this.weights[`${item.name}_fuzzy`] = item.weight;
     }
@@ -23,7 +23,7 @@ class Create {
 
   fromObjectKeys(item) {
     item.keys.forEach((key) => {
-      this.indexes[`${item.name}_fuzzy.${key}_fuzzy`] = 'text';
+      this.indexes[`${item.name}_fuzzy.${key}_fuzzy`] = "text";
     });
     this.schema.add(this.addArrayToSchema(this.Type)(item.name));
   }
@@ -57,7 +57,7 @@ class Generate {
     let value = this.attributes[item];
     if (value) {
       if (Array.isArray(value)) {
-        value = value.join(' ');
+        value = value.join(" ");
       }
 
       this.attributes[`${item}_fuzzy`] = this.makeNGrams(value);
@@ -70,7 +70,7 @@ class Generate {
       const escapeSpecialCharacters = item.escapeSpecialCharacters !== false;
 
       if (Array.isArray(value)) {
-        value = value.join(' ');
+        value = value.join(" ");
       }
 
       this.attributes[`${item.name}_fuzzy`] = this.makeNGrams(
@@ -119,7 +119,7 @@ const createByFieldType = (isString, isObject) => (obj) => (item) => {
   }
 
   if (!isObject(item)) {
-    throw new TypeError('Fields items must be String or Object.');
+    throw new TypeError("Fields items must be String or Object.");
   }
 
   if (item.keys) {
@@ -135,14 +135,12 @@ const createByFieldType = (isString, isObject) => (obj) => (item) => {
  * @param {object} schema - The mongoose schema
  * @param {array} fields - The fields to add to the collection
  */
-const createFields = (addToSchema, addArrayToSchema, createField, MixedType) => (
-  schema,
-  fields,
-) => {
-  const create = new Create(schema, MixedType, addToSchema, addArrayToSchema);
-  fields.forEach(createField(create));
-  return { indexes: create.indexes, weights: create.weights };
-};
+const createFields =
+  (addToSchema, addArrayToSchema, createField, MixedType) => (schema, fields) => {
+    const create = new Create(schema, MixedType, addToSchema, addArrayToSchema);
+    fields.forEach(createField(create));
+    return { indexes: create.indexes, weights: create.weights };
+  };
 
 /**
  * Removes fuzzy keys from the document

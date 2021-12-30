@@ -8,7 +8,7 @@ const {
   removeFuzzyElements,
   setTransformers,
   nGrams,
-} = require('./helpers');
+} = require("./helpers");
 
 const parseArguments = (args, i1, i2) => {
   let options = {};
@@ -29,7 +29,7 @@ const parseArguments = (args, i1, i2) => {
 
 const validateItem = (item) => {
   if (isObject(item) && item.keys && !Array.isArray(item.keys) && !isString(item.keys)) {
-    throw new TypeError('Key must be an array or a string.');
+    throw new TypeError("Key must be an array or a string.");
   }
 };
 
@@ -39,15 +39,15 @@ const validateMiddlewares = (middlewares) => {
   }
 
   if (!isObject(middlewares)) {
-    throw new TypeError('Middlewares must be an object.');
+    throw new TypeError("Middlewares must be an object.");
   }
 
   if (!Object.keys(middlewares).every((key) => validMiddlewares.includes(key))) {
-    throw new TypeError(`Middleware key should be one of: [${validMiddlewares.join(', ')}].`);
+    throw new TypeError(`Middleware key should be one of: [${validMiddlewares.join(", ")}].`);
   }
 
   if (!Object.values(middlewares).every(isFunction)) {
-    throw new TypeError('Middleware must be a Function.');
+    throw new TypeError("Middleware must be a Function.");
   }
 };
 
@@ -80,7 +80,7 @@ function fuzzySearch(...args) {
   const queryArgs = Object.values(args);
   if (queryArgs.length === 0 || (!isString(queryArgs[0]) && !isObject(queryArgs[0]))) {
     throw new TypeError(
-      'Fuzzy Search: First argument is mandatory and must be a string or an object.',
+      "Fuzzy Search: First argument is mandatory and must be a string or an object.",
     );
   }
 
@@ -93,7 +93,7 @@ function fuzzySearch(...args) {
 
   const query = exact
     ? `"${queryString}"`
-    : nGrams(queryString, false, defaultNgamMinSize, checkPrefixOnly).join(' ');
+    : nGrams(queryString, false, defaultNgamMinSize, checkPrefixOnly).join(" ");
 
   const { callback, options } = parseArguments(queryArgs, 1, 2);
 
@@ -113,8 +113,8 @@ function fuzzySearch(...args) {
 
   return this.find.apply(this, [
     search,
-    { confidenceScore: { $meta: 'textScore' } },
-    { sort: { confidenceScore: { $meta: 'textScore' } } },
+    { confidenceScore: { $meta: "textScore" } },
+    { sort: { confidenceScore: { $meta: "textScore" } } },
     callback,
   ]);
 }
@@ -127,20 +127,20 @@ function fuzzySearch(...args) {
  */
 module.exports = function (schema, pluginOptions) {
   if (!pluginOptions || (pluginOptions && !pluginOptions.fields)) {
-    throw new Error('You must set at least one field for fuzzy search.');
+    throw new Error("You must set at least one field for fuzzy search.");
   }
 
   const { fields, middlewares } = pluginOptions;
 
   if (!Array.isArray(fields)) {
-    throw new TypeError('Fields must be an array.');
+    throw new TypeError("Fields must be an array.");
   }
 
   fields.forEach(validateItem);
   validateMiddlewares(middlewares);
 
   const { indexes, weights } = createFields(schema, fields);
-  schema.index(indexes, { weights, name: 'fuzzy_text' });
+  schema.index(indexes, { weights, name: "fuzzy_text" });
 
   const hideElements = removeFuzzyElements(fields);
   const { toJSON, toObject } = setTransformers(hideElements)(schema);
@@ -191,23 +191,23 @@ module.exports = function (schema, pluginOptions) {
     };
   }
 
-  schema.pre('save', function (next) {
-    const fn = getMiddleware(middlewares, 'preSave');
+  schema.pre("save", function (next) {
+    const fn = getMiddleware(middlewares, "preSave");
     return thenable.bind(this)(fn, saveMiddleware.bind(this)(next));
   });
 
-  schema.pre('insertMany', function (next, docs) {
-    const fn = getMiddleware(middlewares, 'preInsertMany');
+  schema.pre("insertMany", function (next, docs) {
+    const fn = getMiddleware(middlewares, "preInsertMany");
     return thenable.bind(this)(fn, insertMany.bind(this)(next, docs), docs);
   });
 
-  schema.pre('update', preUpdate('preUpdate'));
+  schema.pre("update", preUpdate("preUpdate"));
 
-  schema.pre('updateOne', preUpdate('preUpdateOne'));
+  schema.pre("updateOne", preUpdate("preUpdateOne"));
 
-  schema.pre('findOneAndUpdate', preUpdate('preFindOneAndUpdate'));
+  schema.pre("findOneAndUpdate", preUpdate("preFindOneAndUpdate"));
 
-  schema.pre('updateMany', preUpdate('preUpdateMany'));
+  schema.pre("updateMany", preUpdate("preUpdateMany"));
 
   schema.statics.fuzzySearch = function (...args) {
     return fuzzySearch.apply(this, args);

@@ -5,7 +5,7 @@ const createSchemaObject = (typeValue, options) => ({
 
 const addToSchema = (name) => ({
   [`${name}_fuzzy`]: createSchemaObject([String], {
-    default: '',
+    default: "",
     index: false,
   }),
 });

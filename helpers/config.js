@@ -9,11 +9,11 @@ module.exports = {
   DEFAULT_MIN_SIZE: 2,
   DEFAULT_PREFIX_ONLY: false,
   validMiddlewares: [
-    'preSave',
-    'preUpdate',
-    'preFindOneAndUpdate',
-    'preInsertMany',
-    'preUpdateMany',
-    'preUpdateOne',
+    "preSave",
+    "preUpdate",
+    "preFindOneAndUpdate",
+    "preInsertMany",
+    "preUpdateMany",
+    "preUpdateOne",
   ],
 };

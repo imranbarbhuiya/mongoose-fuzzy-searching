@@ -2,19 +2,19 @@ const {
   Schema: {
     Types: { Mixed: MixedType },
   },
-} = require('mongoose');
+} = require("mongoose");
 
-const config = require('./config');
-const languageCharacters = require('./languageCharacters');
-const { isObject, isFunction, isString, replaceSymbols } = require('./utils');
-const { makeNGrams } = require('./ngrams');
+const config = require("./config");
+const languageCharacters = require("./languageCharacters");
+const { isObject, isFunction, isString, replaceSymbols } = require("./utils");
+const { makeNGrams } = require("./ngrams");
 const {
   createFields,
   removeFuzzyElements,
   createNGrams,
   createByFieldType,
-} = require('./db/fields');
-const { addToSchema, addArrayToSchema, setTransformers } = require('./db/schema');
+} = require("./db/fields");
+const { addToSchema, addArrayToSchema, setTransformers } = require("./db/schema");
 
 const createField = createByFieldType(isString, isObject);
 const nGrams = makeNGrams(config, replaceSymbols(languageCharacters));

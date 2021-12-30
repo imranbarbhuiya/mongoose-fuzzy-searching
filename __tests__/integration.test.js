@@ -1,5 +1,5 @@
-const fuzzySearching = require('..');
-const db = require('./support/db');
+const fuzzySearching = require("..");
+const db = require("./support/db");
 
 beforeAll(async () => {
   await db.openConnection();
@@ -9,132 +9,132 @@ afterAll(async () => {
   await db.closeConnection();
 });
 
-describe('fuzzySearch', () => {
-  describe('mongoose_fuzzy_searching without the right options', () => {
-    const Model = db.createSchema('without the right options', { name: String })(fuzzySearching, [
+describe("fuzzySearch", () => {
+  describe("mongoose_fuzzy_searching without the right options", () => {
+    const Model = db.createSchema("without the right options", { name: String })(fuzzySearching, [
       {
-        name: 'name',
+        name: "name",
         minSize: 2,
       },
     ]);
 
     beforeAll(async () => {
-      await db.seed(Model, { name: 'Joe' });
+      await db.seed(Model, { name: "Joe" });
     });
 
-    describe('Error handling', () => {
-      it('fuzzySearch() -> should return an TypeError when the first argument is undefined', () => {
+    describe("Error handling", () => {
+      it("fuzzySearch() -> should return an TypeError when the first argument is undefined", () => {
         expect(Model.fuzzySearch.bind(this)).toThrow(
-          'Fuzzy Search: First argument is mandatory and must be a string or an object.',
+          "Fuzzy Search: First argument is mandatory and must be a string or an object.",
         );
       });
 
-      it('fuzzySearch() -> should return an TypeError when the first argument is a function', () => {
+      it("fuzzySearch() -> should return an TypeError when the first argument is a function", () => {
         expect(Model.fuzzySearch.bind(this, () => {})).toThrow(
-          'Fuzzy Search: First argument is mandatory and must be a string or an object.',
+          "Fuzzy Search: First argument is mandatory and must be a string or an object.",
         );
       });
     });
   });
 
-  describe('mongoose_fuzzy_searching without options and callback', () => {
-    const Model = db.createSchema('without options and callback', { name: String })(
+  describe("mongoose_fuzzy_searching without options and callback", () => {
+    const Model = db.createSchema("without options and callback", { name: String })(
       fuzzySearching,
       [
         {
-          name: 'name',
+          name: "name",
           minSize: 2,
         },
       ],
     );
 
     beforeAll(async () => {
-      await db.seed(Model, { name: 'Joe' });
+      await db.seed(Model, { name: "Joe" });
     });
 
-    it('fuzzySearch() -> should return Promise', () => {
-      const result = Model.fuzzySearch('jo');
-      expect(result).toHaveProperty('then');
+    it("fuzzySearch() -> should return Promise", () => {
+      const result = Model.fuzzySearch("jo");
+      expect(result).toHaveProperty("then");
     });
 
-    it('fuzzySearch() -> should find one user with empty string as first parameter', async () => {
-      const result = await Model.fuzzySearch('');
+    it("fuzzySearch() -> should find one user with empty string as first parameter", async () => {
+      const result = await Model.fuzzySearch("");
       expect(result).toHaveLength(1);
     });
 
-    it('fuzzySearch() -> should find one user with string as first parameter', async () => {
-      const result = await Model.fuzzySearch('jo');
+    it("fuzzySearch() -> should find one user with string as first parameter", async () => {
+      const result = await Model.fuzzySearch("jo");
       expect(result).toHaveLength(1);
     });
 
-    it('fuzzySearch() -> should find one user with object with empty query as first parameter', async () => {
-      const result = await Model.fuzzySearch({ query: '' });
+    it("fuzzySearch() -> should find one user with object with empty query as first parameter", async () => {
+      const result = await Model.fuzzySearch({ query: "" });
       expect(result).toHaveLength(1);
     });
 
-    it('fuzzySearch() -> should find one user with object as first parameter', async () => {
-      const result = await Model.fuzzySearch({ query: 'jo' });
+    it("fuzzySearch() -> should find one user with object as first parameter", async () => {
+      const result = await Model.fuzzySearch({ query: "jo" });
       expect(result).toHaveLength(1);
     });
 
-    it('fuzzySearch() -> should find one user with object with empty query as first parameter (with `prefixOnly`)', async () => {
-      const result = await Model.fuzzySearch({ query: '', prefixOnly: true });
+    it("fuzzySearch() -> should find one user with object with empty query as first parameter (with `prefixOnly`)", async () => {
+      const result = await Model.fuzzySearch({ query: "", prefixOnly: true });
       expect(result).toHaveLength(1);
     });
 
-    it('fuzzySearch() -> should find one user with object as first parameter (with `prefixOnly`)', async () => {
+    it("fuzzySearch() -> should find one user with object as first parameter (with `prefixOnly`)", async () => {
       const result = await Model.fuzzySearch({
-        query: 'Joe',
+        query: "Joe",
         prefixOnly: true,
       });
       expect(result).toHaveLength(1);
     });
   });
 
-  describe('mongoose_fuzzy_searching with options and without callback', () => {
-    const Model = db.createSchema('with options and without callback', {
+  describe("mongoose_fuzzy_searching with options and without callback", () => {
+    const Model = db.createSchema("with options and without callback", {
       name: String,
       lastName: String,
     })(fuzzySearching, [
       {
-        name: 'name',
+        name: "name",
         minSize: 2,
       },
     ]);
 
     beforeAll(async () => {
-      await db.seed(Model, { name: 'Joe', lastName: 'Doe' });
+      await db.seed(Model, { name: "Joe", lastName: "Doe" });
     });
 
-    it('fuzzySearch() -> should not be able to find users when the options searches for `lastName` with value `test`', async () => {
-      const result = await Model.fuzzySearch('jo', { lastName: 'test' });
+    it("fuzzySearch() -> should not be able to find users when the options searches for `lastName` with value `test`", async () => {
+      const result = await Model.fuzzySearch("jo", { lastName: "test" });
       expect(result).toHaveLength(0);
     });
 
-    it('fuzzySearch() -> should be able to find users when the options searches for `lastName` with value `Doe`', async () => {
-      const result = await Model.fuzzySearch('jo', { lastName: 'Doe' });
+    it("fuzzySearch() -> should be able to find users when the options searches for `lastName` with value `Doe`", async () => {
+      const result = await Model.fuzzySearch("jo", { lastName: "Doe" });
       expect(result).toHaveLength(1);
     });
   });
 
-  describe('mongoose_fuzzy_searching with callback and without options', () => {
-    const Model = db.createSchema('with callback and without options', { name: String })(
+  describe("mongoose_fuzzy_searching with callback and without options", () => {
+    const Model = db.createSchema("with callback and without options", { name: String })(
       fuzzySearching,
       [
         {
-          name: 'name',
+          name: "name",
           minSize: 2,
         },
       ],
     );
 
     beforeAll(async () => {
-      await db.seed(Model, { name: 'Joe' });
+      await db.seed(Model, { name: "Joe" });
     });
 
-    it('fuzzySearch() -> should return the results with callback', () => {
+    it("fuzzySearch() -> should return the results with callback", () => {
       return new Promise((done) => {
-        Model.fuzzySearch('jo', (err, doc) => {
+        Model.fuzzySearch("jo", (err, doc) => {
           expect(err).toBe(null);
           expect(doc).toHaveLength(1);
           done(err);
@@ -143,24 +143,24 @@ describe('fuzzySearch', () => {
     });
   });
 
-  describe('mongoose_fuzzy_searching with options and callback', () => {
-    const Model = db.createSchema('with options and callback', { name: String, lastName: String })(
+  describe("mongoose_fuzzy_searching with options and callback", () => {
+    const Model = db.createSchema("with options and callback", { name: String, lastName: String })(
       fuzzySearching,
       [
         {
-          name: 'name',
+          name: "name",
           minSize: 2,
         },
       ],
     );
 
     beforeAll(async () => {
-      await db.seed(Model, { name: 'Joe', lastName: 'Doe' });
+      await db.seed(Model, { name: "Joe", lastName: "Doe" });
     });
 
-    it('fuzzySearch() -> should not be able to find users when the options searches for `lastName` with value `test` and return the result with callback', () => {
+    it("fuzzySearch() -> should not be able to find users when the options searches for `lastName` with value `test` and return the result with callback", () => {
       return new Promise((done) => {
-        Model.fuzzySearch('jo', { lastName: 'test' }, (err, doc) => {
+        Model.fuzzySearch("jo", { lastName: "test" }, (err, doc) => {
           expect(err).toBe(null);
           expect(doc).toHaveLength(0);
           done(err);
@@ -168,9 +168,9 @@ describe('fuzzySearch', () => {
       });
     });
 
-    it('fuzzySearch() -> should not be able to find users when the options searches for `lastName` with value `Doe` and return the result with callback', () => {
+    it("fuzzySearch() -> should not be able to find users when the options searches for `lastName` with value `Doe` and return the result with callback", () => {
       return new Promise((done) => {
-        Model.fuzzySearch('jo', { lastName: 'Doe' }, (err, doc) => {
+        Model.fuzzySearch("jo", { lastName: "Doe" }, (err, doc) => {
           expect(err).toBe(null);
           expect(doc).toHaveLength(1);
           done(err);
@@ -179,9 +179,9 @@ describe('fuzzySearch', () => {
     });
   });
 
-  describe('mongoose_fuzzy_searching with `keys` attribute in fields', () => {
-    describe('mongoose_fuzzy_searching with array of objects attribute', () => {
-      const Model = db.createSchema('keys with array of objects attribute', {
+  describe("mongoose_fuzzy_searching with `keys` attribute in fields", () => {
+    describe("mongoose_fuzzy_searching with array of objects attribute", () => {
+      const Model = db.createSchema("keys with array of objects attribute", {
         texts: [
           {
             title: String,
@@ -191,9 +191,9 @@ describe('fuzzySearch', () => {
         ],
       })(fuzzySearching, [
         {
-          name: 'texts',
+          name: "texts",
           escapeSpecialCharacters: false,
-          keys: ['title', 'language'],
+          keys: ["title", "language"],
         },
       ]);
 
@@ -201,27 +201,27 @@ describe('fuzzySearch', () => {
         await db.seed(Model, {
           texts: [
             {
-              title: 'this is a title',
-              description: 'descr!',
-              language: 'en',
+              title: "this is a title",
+              description: "descr!",
+              language: "en",
             },
             {
-              title: 'awesome!',
-              description: 'descr!',
-              language: 'el',
+              title: "awesome!",
+              description: "descr!",
+              language: "el",
             },
           ],
         });
       });
 
-      it('fuzzySearch() -> should be able to find the title when the text is `this is`', async () => {
-        const result = await Model.fuzzySearch('this is');
+      it("fuzzySearch() -> should be able to find the title when the text is `this is`", async () => {
+        const result = await Model.fuzzySearch("this is");
         expect(result).toHaveLength(1);
       });
     });
 
-    describe('mongoose_fuzzy_searching with single object attribute', () => {
-      const Model = db.createSchema('keys with single object attribute', {
+    describe("mongoose_fuzzy_searching with single object attribute", () => {
+      const Model = db.createSchema("keys with single object attribute", {
         title: {
           en: String,
           de: String,
@@ -229,9 +229,9 @@ describe('fuzzySearch', () => {
         },
       })(fuzzySearching, [
         {
-          name: 'title',
+          name: "title",
           escapeSpecialCharacters: false,
-          keys: ['en', 'de', 'it'],
+          keys: ["en", "de", "it"],
           minSize: 3,
         },
       ]);
@@ -239,17 +239,17 @@ describe('fuzzySearch', () => {
       beforeAll(async () => {
         await db.seed(Model, {
           title: {
-            en: 'start wars',
-            de: 'Krieg der Sterne',
-            it: 'guerre stellari',
+            en: "start wars",
+            de: "Krieg der Sterne",
+            it: "guerre stellari",
           },
         });
       });
 
-      it('fuzzySearch() -> should be able to find the title when the text is `stellari`', async () => {
-        const ItalianResult = await Model.fuzzySearch('ste');
-        const GermanResult = await Model.fuzzySearch('kri');
-        const EnglishResult = await Model.fuzzySearch('war');
+      it("fuzzySearch() -> should be able to find the title when the text is `stellari`", async () => {
+        const ItalianResult = await Model.fuzzySearch("ste");
+        const GermanResult = await Model.fuzzySearch("kri");
+        const EnglishResult = await Model.fuzzySearch("war");
 
         expect(ItalianResult).toHaveLength(1);
         expect(GermanResult).toHaveLength(1);
@@ -258,27 +258,27 @@ describe('fuzzySearch', () => {
     });
   });
 
-  describe('mongoose_fuzzy_searching with `exact` option', () => {
-    describe('mongoose_fuzzy_searching with array of objects attribute', () => {
-      const Model = db.createSchema('exact with array of objects attribute', {
+  describe("mongoose_fuzzy_searching with `exact` option", () => {
+    describe("mongoose_fuzzy_searching with array of objects attribute", () => {
+      const Model = db.createSchema("exact with array of objects attribute", {
         name: String,
-      })(fuzzySearching, ['name']);
+      })(fuzzySearching, ["name"]);
 
       beforeAll(async () => {
-        await Model.insertMany([{ name: 'Peter Pan' }, { name: 'Peter Ofori-Quaye' }]);
+        await Model.insertMany([{ name: "Peter Pan" }, { name: "Peter Ofori-Quaye" }]);
       });
 
-      it('fuzzySearch() -> should be able to find the title when the text is `Peter Pan`', async () => {
-        const exactResult = await Model.fuzzySearch({ query: 'Peter Pan', exact: true });
-        const fuzzyResult = await Model.fuzzySearch({ query: 'Peter Pan' });
+      it("fuzzySearch() -> should be able to find the title when the text is `Peter Pan`", async () => {
+        const exactResult = await Model.fuzzySearch({ query: "Peter Pan", exact: true });
+        const fuzzyResult = await Model.fuzzySearch({ query: "Peter Pan" });
 
         expect(exactResult).toHaveLength(1);
         expect(fuzzyResult).toHaveLength(2);
       });
     });
 
-    describe('mongoose_fuzzy_searching with single object attribute', () => {
-      const Model = db.createSchema('exact with single object attribute', {
+    describe("mongoose_fuzzy_searching with single object attribute", () => {
+      const Model = db.createSchema("exact with single object attribute", {
         title: [
           {
             en: String,
@@ -288,32 +288,32 @@ describe('fuzzySearch', () => {
         ],
       })(fuzzySearching, [
         {
-          name: 'title',
+          name: "title",
           escapeSpecialCharacters: false,
-          keys: ['en', 'de', 'it'],
+          keys: ["en", "de", "it"],
         },
       ]);
 
       beforeAll(async () => {
         await db.seed(Model, {
           title: {
-            en: 'start wars',
-            de: 'Krieg der Sterne',
-            it: 'guerre stellari',
+            en: "start wars",
+            de: "Krieg der Sterne",
+            it: "guerre stellari",
           },
         });
       });
 
-      it('fuzzySearch() -> should be able to find the title when the text is `stellari`', async () => {
-        const result = await Model.fuzzySearch('stellari');
+      it("fuzzySearch() -> should be able to find the title when the text is `stellari`", async () => {
+        const result = await Model.fuzzySearch("stellari");
         expect(result).toHaveLength(1);
       });
     });
   });
 
-  describe('mongoose_fuzzy_searching should run user provided toObject & toJSON', () => {
+  describe("mongoose_fuzzy_searching should run user provided toObject & toJSON", () => {
     const Model = db.createSchema(
-      'toObject and toJSON',
+      "toObject and toJSON",
       { name: String },
       {
         toObject: {
@@ -333,220 +333,220 @@ describe('fuzzySearch', () => {
       },
     )(fuzzySearching, [
       {
-        name: 'name',
+        name: "name",
         minSize: 2,
       },
     ]);
 
     beforeAll(async () => {
-      await db.seed(Model, { name: 'Joe' });
+      await db.seed(Model, { name: "Joe" });
     });
 
     it("Should run user provided toObject and fuzzy searching's toObject", async () => {
-      const result = await Model.fuzzySearch('Joe');
+      const result = await Model.fuzzySearch("Joe");
       expect(result).toHaveLength(1);
-      expect(result[0].toObject()).toHaveProperty('toObjectTest');
-      expect(result[0].toObject()).not.toHaveProperty('name_fuzzy');
+      expect(result[0].toObject()).toHaveProperty("toObjectTest");
+      expect(result[0].toObject()).not.toHaveProperty("name_fuzzy");
     });
 
     it("Should run user provided toJSON and fuzzy searching's toJSON", async () => {
-      const result = await Model.fuzzySearch('Joe');
+      const result = await Model.fuzzySearch("Joe");
       expect(result).toHaveLength(1);
-      expect(result[0].toJSON()).toHaveProperty('toJSONTest');
-      expect(result[0].toJSON()).not.toHaveProperty('name_fuzzy');
+      expect(result[0].toJSON()).toHaveProperty("toJSONTest");
+      expect(result[0].toJSON()).not.toHaveProperty("name_fuzzy");
     });
   });
 
-  describe('mongoose_fuzzy_searching with array of strings', () => {
-    const Model = db.createSchema('with array of strings', {
+  describe("mongoose_fuzzy_searching with array of strings", () => {
+    const Model = db.createSchema("with array of strings", {
       tags: [String],
-    })(fuzzySearching, ['tags']);
+    })(fuzzySearching, ["tags"]);
 
     beforeAll(async () => {
       await db.seed(Model, {
-        tags: ['nature', 'fire', 'beauty', 'tenten'],
+        tags: ["nature", "fire", "beauty", "tenten"],
       });
 
       await db.seed(Model, {
-        tags: ['test1', 'test2', 'test3'],
+        tags: ["test1", "test2", "test3"],
       });
     });
 
-    it('fuzzySearch() -> should be able to find the tag when the text is `nature`', async () => {
-      const result = await Model.fuzzySearch('natu');
+    it("fuzzySearch() -> should be able to find the tag when the text is `nature`", async () => {
+      const result = await Model.fuzzySearch("natu");
       expect(result).toHaveLength(1);
     });
 
-    it('fuzzySearch() -> should be able to return empty array when the text is `bollocks`', async () => {
-      const result = await Model.fuzzySearch('bollocks');
+    it("fuzzySearch() -> should be able to return empty array when the text is `bollocks`", async () => {
+      const result = await Model.fuzzySearch("bollocks");
       expect(result).toHaveLength(0);
     });
   });
 
-  describe('mongoose_fuzzy_searching pre middlewares', () => {
-    describe('mongoose_fuzzy_searching update user with `findOneAndUpdate`', () => {
-      const Model = db.createSchema('pre update user with findOneAndUpdate', {
+  describe("mongoose_fuzzy_searching pre middlewares", () => {
+    describe("mongoose_fuzzy_searching update user with `findOneAndUpdate`", () => {
+      const Model = db.createSchema("pre update user with findOneAndUpdate", {
         name: String,
         age: Number,
       })(fuzzySearching, [
         {
-          name: 'name',
+          name: "name",
           minSize: 2,
         },
       ]);
 
       beforeAll(async () => {
-        const obj = await db.seed(Model, { name: 'Joe' });
+        const obj = await db.seed(Model, { name: "Joe" });
         await Model.findOneAndUpdate({ _id: obj._id }, { age: 30 });
       });
 
-      it('fuzzySearch() -> should return Promise', () => {
-        const result = Model.fuzzySearch('jo');
-        expect(result).toHaveProperty('then');
+      it("fuzzySearch() -> should return Promise", () => {
+        const result = Model.fuzzySearch("jo");
+        expect(result).toHaveProperty("then");
       });
 
-      it('fuzzySearch() -> should find one user with string as first parameter', async () => {
-        const result = await Model.fuzzySearch('jo');
+      it("fuzzySearch() -> should find one user with string as first parameter", async () => {
+        const result = await Model.fuzzySearch("jo");
         expect(result).toHaveLength(1);
       });
 
-      it('fuzzySearch() -> should find one user with object as first parameter', async () => {
-        const result = await Model.fuzzySearch({ query: 'jo' });
+      it("fuzzySearch() -> should find one user with object as first parameter", async () => {
+        const result = await Model.fuzzySearch({ query: "jo" });
         expect(result).toHaveLength(1);
       });
     });
 
-    describe('mongoose_fuzzy_searching update user with `update`', () => {
-      const Model = db.createSchema('pre update user with update', { name: String })(
+    describe("mongoose_fuzzy_searching update user with `update`", () => {
+      const Model = db.createSchema("pre update user with update", { name: String })(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
       );
 
       beforeAll(async () => {
-        const obj = await db.seed(Model, { name: 'Joe' });
-        await Model.update({ _id: obj._id }, { name: 'Someone' });
+        const obj = await db.seed(Model, { name: "Joe" });
+        await Model.update({ _id: obj._id }, { name: "Someone" });
       });
 
-      it('fuzzySearch() -> should return Promise', () => {
-        const result = Model.fuzzySearch('some');
-        expect(result).toHaveProperty('then');
+      it("fuzzySearch() -> should return Promise", () => {
+        const result = Model.fuzzySearch("some");
+        expect(result).toHaveProperty("then");
       });
 
-      it('fuzzySearch() -> should find one user with string as first parameter', async () => {
-        const result = await Model.fuzzySearch('some');
+      it("fuzzySearch() -> should find one user with string as first parameter", async () => {
+        const result = await Model.fuzzySearch("some");
         expect(result).toHaveLength(1);
       });
 
-      it('fuzzySearch() -> should find one user with object as first parameter', async () => {
-        const result = await Model.fuzzySearch({ query: 'some' });
+      it("fuzzySearch() -> should find one user with object as first parameter", async () => {
+        const result = await Model.fuzzySearch({ query: "some" });
         expect(result).toHaveLength(1);
       });
     });
 
-    describe('mongoose_fuzzy_searching update user with `updateOne`', () => {
-      const Model = db.createSchema('pre update user with updateOne', { name: String })(
+    describe("mongoose_fuzzy_searching update user with `updateOne`", () => {
+      const Model = db.createSchema("pre update user with updateOne", { name: String })(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
       );
 
       beforeAll(async () => {
-        const obj = await db.seed(Model, { name: 'Joe' });
-        await Model.updateOne({ _id: obj._id }, { name: 'Someone' });
+        const obj = await db.seed(Model, { name: "Joe" });
+        await Model.updateOne({ _id: obj._id }, { name: "Someone" });
       });
 
-      it('fuzzySearch() -> should return Promise', () => {
-        const result = Model.fuzzySearch('some');
-        expect(result).toHaveProperty('then');
+      it("fuzzySearch() -> should return Promise", () => {
+        const result = Model.fuzzySearch("some");
+        expect(result).toHaveProperty("then");
       });
 
-      it('fuzzySearch() -> should find one user with string as first parameter', async () => {
-        const result = await Model.fuzzySearch('some');
+      it("fuzzySearch() -> should find one user with string as first parameter", async () => {
+        const result = await Model.fuzzySearch("some");
         expect(result).toHaveLength(1);
       });
 
-      it('fuzzySearch() -> should find one user with object as first parameter', async () => {
-        const result = await Model.fuzzySearch({ query: 'some' });
+      it("fuzzySearch() -> should find one user with object as first parameter", async () => {
+        const result = await Model.fuzzySearch({ query: "some" });
         expect(result).toHaveLength(1);
       });
     });
 
-    describe('mongoose_fuzzy_searching insert users with `insertMany`', () => {
-      const Model = db.createSchema('pre insert user with insertMany', { name: String })(
+    describe("mongoose_fuzzy_searching insert users with `insertMany`", () => {
+      const Model = db.createSchema("pre insert user with insertMany", { name: String })(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
       );
 
       beforeAll(async () => {
-        await Model.insertMany([{ name: 'Vassilis' }, { name: 'Dimitris' }]);
+        await Model.insertMany([{ name: "Vassilis" }, { name: "Dimitris" }]);
       });
 
-      it('fuzzySearch() -> should return Promise', () => {
-        const result = Model.fuzzySearch('vassi');
-        expect(result).toHaveProperty('then');
+      it("fuzzySearch() -> should return Promise", () => {
+        const result = Model.fuzzySearch("vassi");
+        expect(result).toHaveProperty("then");
       });
 
-      it('fuzzySearch() -> should find one user with string as first parameter', async () => {
-        const result = await Model.fuzzySearch('vassi');
+      it("fuzzySearch() -> should find one user with string as first parameter", async () => {
+        const result = await Model.fuzzySearch("vassi");
         expect(result).toHaveLength(1);
       });
     });
 
-    describe('mongoose_fuzzy_searching update users with `updateMany`', () => {
-      const Model = db.createSchema('pre update user with updateMany', { name: String })(
+    describe("mongoose_fuzzy_searching update users with `updateMany`", () => {
+      const Model = db.createSchema("pre update user with updateMany", { name: String })(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
       );
 
       beforeAll(async () => {
-        await Model.insertMany([{ name: 'Vassilis' }, { name: 'Dimitris' }]);
-        await Model.updateMany({ name: 'Vassilis' }, { name: 'Pallas' });
+        await Model.insertMany([{ name: "Vassilis" }, { name: "Dimitris" }]);
+        await Model.updateMany({ name: "Vassilis" }, { name: "Pallas" });
       });
 
-      it('fuzzySearch() -> should return Promise', () => {
-        const result = Model.fuzzySearch('pall');
-        expect(result).toHaveProperty('then');
+      it("fuzzySearch() -> should return Promise", () => {
+        const result = Model.fuzzySearch("pall");
+        expect(result).toHaveProperty("then");
       });
 
-      it('fuzzySearch() -> should find one user with string as first parameter', async () => {
-        const result = await Model.fuzzySearch('pall');
+      it("fuzzySearch() -> should find one user with string as first parameter", async () => {
+        const result = await Model.fuzzySearch("pall");
         expect(result).toHaveLength(1);
       });
     });
   });
 
-  describe('mongoose_fuzzy_searching custom `pre` middlewares', () => {
+  describe("mongoose_fuzzy_searching custom `pre` middlewares", () => {
     const schema = { name: String, age: Number, skill: String };
 
-    it('should call `preSave`', async () => {
+    it("should call `preSave`", async () => {
       const preSave = jest.fn().mockImplementation(function () {
-        this.skill = 'amazing';
+        this.skill = "amazing";
       });
 
-      const Model = db.createSchema('custom pre preSave', schema)(
+      const Model = db.createSchema("custom pre preSave", schema)(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
@@ -555,22 +555,22 @@ describe('fuzzySearch', () => {
         },
       );
 
-      await db.seed(Model, { name: 'Joe', age: 30 });
+      await db.seed(Model, { name: "Joe", age: 30 });
 
-      const result = await Model.fuzzySearch({ query: 'jo' });
+      const result = await Model.fuzzySearch({ query: "jo" });
       expect(result).toHaveLength(1);
       expect(preSave).toHaveBeenCalledTimes(1);
-      expect(result[0]).toHaveProperty('skill', 'amazing');
+      expect(result[0]).toHaveProperty("skill", "amazing");
     });
 
-    it('should call `preUpdate`', async () => {
+    it("should call `preUpdate`", async () => {
       const preUpdate = jest.fn().mockImplementation(function () {});
 
-      const Model = db.createSchema('custom pre preUpdate', schema)(
+      const Model = db.createSchema("custom pre preUpdate", schema)(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
@@ -579,23 +579,23 @@ describe('fuzzySearch', () => {
         },
       );
 
-      const obj = await db.seed(Model, { name: 'Joe', age: 30 });
-      await Model.update({ _id: obj._id }, { skill: 'amazing' });
+      const obj = await db.seed(Model, { name: "Joe", age: 30 });
+      await Model.update({ _id: obj._id }, { skill: "amazing" });
 
-      const result = await Model.fuzzySearch({ query: 'jo' });
+      const result = await Model.fuzzySearch({ query: "jo" });
       expect(result).toHaveLength(1);
       expect(preUpdate).toHaveBeenCalledTimes(1);
-      expect(result[0]).toHaveProperty('skill', 'amazing');
+      expect(result[0]).toHaveProperty("skill", "amazing");
     });
 
-    it('should call `preFindOneAndUpdate`', async () => {
+    it("should call `preFindOneAndUpdate`", async () => {
       const preFindOneAndUpdate = jest.fn().mockImplementation(function () {});
 
-      const Model = db.createSchema('custom pre preFindOneAndUpdate', schema)(
+      const Model = db.createSchema("custom pre preFindOneAndUpdate", schema)(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
@@ -604,27 +604,27 @@ describe('fuzzySearch', () => {
         },
       );
 
-      const obj = await db.seed(Model, { name: 'Joe', age: 30 });
-      await Model.findByIdAndUpdate(obj._id, { skill: 'amazing' });
+      const obj = await db.seed(Model, { name: "Joe", age: 30 });
+      await Model.findByIdAndUpdate(obj._id, { skill: "amazing" });
 
-      const result = await Model.fuzzySearch({ query: 'jo' });
+      const result = await Model.fuzzySearch({ query: "jo" });
       expect(result).toHaveLength(1);
       expect(preFindOneAndUpdate).toHaveBeenCalledTimes(1);
-      expect(result[0]).toHaveProperty('skill', 'amazing');
+      expect(result[0]).toHaveProperty("skill", "amazing");
     });
 
-    it('should call `preInsertMany`', async () => {
+    it("should call `preInsertMany`", async () => {
       const preInsertMany = jest.fn().mockImplementation(function (docs) {
         docs.forEach((doc) => {
-          doc.skill = 'amazing';
+          doc.skill = "amazing";
         });
       });
 
-      const Model = db.createSchema('custom pre preInsertMany', schema)(
+      const Model = db.createSchema("custom pre preInsertMany", schema)(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
@@ -634,24 +634,24 @@ describe('fuzzySearch', () => {
       );
 
       await Model.insertMany([
-        { name: 'Joe', age: 30 },
-        { name: 'Doe', age: 26 },
+        { name: "Joe", age: 30 },
+        { name: "Doe", age: 26 },
       ]);
 
-      const result = await Model.fuzzySearch({ query: 'jo' });
+      const result = await Model.fuzzySearch({ query: "jo" });
       expect(result).toHaveLength(1);
       expect(preInsertMany).toHaveBeenCalledTimes(1);
-      expect(result[0]).toHaveProperty('skill', 'amazing');
+      expect(result[0]).toHaveProperty("skill", "amazing");
     });
 
-    it('should call `preUpdateMany`', async () => {
+    it("should call `preUpdateMany`", async () => {
       const preUpdateMany = jest.fn().mockImplementation(function () {});
 
-      const Model = db.createSchema('custom pre preUpdateMany', schema)(
+      const Model = db.createSchema("custom pre preUpdateMany", schema)(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
@@ -661,24 +661,24 @@ describe('fuzzySearch', () => {
       );
 
       await Model.insertMany([
-        { name: 'Joe', age: 30 },
-        { name: 'Doe', age: 26 },
+        { name: "Joe", age: 30 },
+        { name: "Doe", age: 26 },
       ]);
-      await Model.updateMany({ name: 'Doe' }, { name: 'Foe' });
+      await Model.updateMany({ name: "Doe" }, { name: "Foe" });
 
-      const result = await Model.fuzzySearch({ query: 'jo' });
+      const result = await Model.fuzzySearch({ query: "jo" });
       expect(result).toHaveLength(1);
       expect(preUpdateMany).toHaveBeenCalledTimes(1);
     });
 
-    it('should call `preUpdateOne`', async () => {
+    it("should call `preUpdateOne`", async () => {
       const preUpdateOne = jest.fn().mockImplementation(function () {});
 
-      const Model = db.createSchema('custom pre preUpdateOne', schema)(
+      const Model = db.createSchema("custom pre preUpdateOne", schema)(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
@@ -687,24 +687,24 @@ describe('fuzzySearch', () => {
         },
       );
 
-      const obj = await db.seed(Model, { name: 'Joe', age: 30 });
-      await Model.updateOne({ _id: obj._id }, { skill: 'amazing' });
+      const obj = await db.seed(Model, { name: "Joe", age: 30 });
+      await Model.updateOne({ _id: obj._id }, { skill: "amazing" });
 
-      const result = await Model.fuzzySearch({ query: 'jo' });
+      const result = await Model.fuzzySearch({ query: "jo" });
       expect(result).toHaveLength(1);
       expect(preUpdateOne).toHaveBeenCalledTimes(1);
-      expect(result[0]).toHaveProperty('skill', 'amazing');
+      expect(result[0]).toHaveProperty("skill", "amazing");
     });
 
-    it('should call `preSave` and `preUpdate`', async () => {
+    it("should call `preSave` and `preUpdate`", async () => {
       const preUpdate = jest.fn().mockImplementation(function () {});
       const preSave = jest.fn().mockImplementation(function () {});
 
-      const Model = db.createSchema('custom pre preSave and preUpdate', schema)(
+      const Model = db.createSchema("custom pre preSave and preUpdate", schema)(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
@@ -714,10 +714,10 @@ describe('fuzzySearch', () => {
         },
       );
 
-      const obj = await db.seed(Model, { name: 'Joe', age: 30 });
-      await Model.update({ _id: obj._id }, { skill: 'amazing' });
+      const obj = await db.seed(Model, { name: "Joe", age: 30 });
+      await Model.update({ _id: obj._id }, { skill: "amazing" });
 
-      const result = await Model.fuzzySearch({ query: 'jo' });
+      const result = await Model.fuzzySearch({ query: "jo" });
       expect(result).toHaveLength(1);
       expect(preSave).toHaveBeenCalledTimes(1);
       expect(preUpdate).toHaveBeenCalledTimes(1);
@@ -725,24 +725,24 @@ describe('fuzzySearch', () => {
       expect(preSave.mock.invocationCallOrder[0]).toBeLessThan(
         preUpdate.mock.invocationCallOrder[0],
       );
-      expect(result[0]).toHaveProperty('skill', 'amazing');
+      expect(result[0]).toHaveProperty("skill", "amazing");
     });
 
-    it('should call promise', async () => {
+    it("should call promise", async () => {
       const preSave = jest.fn().mockImplementation(async function () {
         return new Promise((resolve) => {
           setTimeout(() => {
-            this.skill = 'amazing';
+            this.skill = "amazing";
             resolve();
           }, 2000);
         });
       });
 
-      const Model = db.createSchema('custom pre preSave promise', schema)(
+      const Model = db.createSchema("custom pre preSave promise", schema)(
         fuzzySearching,
         [
           {
-            name: 'name',
+            name: "name",
             minSize: 2,
           },
         ],
@@ -751,32 +751,32 @@ describe('fuzzySearch', () => {
         },
       );
 
-      await db.seed(Model, { name: 'Joe', age: 30 });
+      await db.seed(Model, { name: "Joe", age: 30 });
 
-      const result = await Model.fuzzySearch({ query: 'jo' });
+      const result = await Model.fuzzySearch({ query: "jo" });
       expect(result).toHaveLength(1);
       expect(preSave).toHaveBeenCalledTimes(1);
-      expect(result[0]).toHaveProperty('skill', 'amazing');
+      expect(result[0]).toHaveProperty("skill", "amazing");
     });
   });
 
-  describe('mongoose_fuzzy_searching with query helper', () => {
-    const Model = db.createSchema('with query helper', { name: String, age: Number })(
+  describe("mongoose_fuzzy_searching with query helper", () => {
+    const Model = db.createSchema("with query helper", { name: String, age: Number })(
       fuzzySearching,
       [
         {
-          name: 'name',
+          name: "name",
           minSize: 2,
         },
       ],
     );
 
     beforeAll(async () => {
-      await db.seed(Model, { name: 'Joe', age: 30 });
+      await db.seed(Model, { name: "Joe", age: 30 });
     });
 
-    it('fuzzySearch() -> should return the results by chaing queries', async () => {
-      const result = await Model.find({ age: { $gte: 30 } }).fuzzySearch('jo');
+    it("fuzzySearch() -> should return the results by chaing queries", async () => {
+      const result = await Model.find({ age: { $gte: 30 } }).fuzzySearch("jo");
       expect(result).toHaveLength(1);
     });
   });

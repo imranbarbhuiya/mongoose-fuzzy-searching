@@ -1,19 +1,19 @@
-const { addArrayToSchema, addToSchema, createSchemaObject, setTransformers } = require('./schema');
+const { addArrayToSchema, addToSchema, createSchemaObject, setTransformers } = require("./schema");
 
-describe('createSchemaObject', () => {
-  it('should return the object with a type', () => {
-    expect(createSchemaObject('test', { foo: 'bar' })).toStrictEqual({
-      foo: 'bar',
-      type: 'test',
+describe("createSchemaObject", () => {
+  it("should return the object with a type", () => {
+    expect(createSchemaObject("test", { foo: "bar" })).toStrictEqual({
+      foo: "bar",
+      type: "test",
     });
   });
 });
 
-describe('addToSchema', () => {
-  it('should return the object with a type and the correct name', () => {
-    expect(addToSchema('test')).toStrictEqual({
+describe("addToSchema", () => {
+  it("should return the object with a type and the correct name", () => {
+    expect(addToSchema("test")).toStrictEqual({
       test_fuzzy: {
-        default: '',
+        default: "",
         index: false,
         type: [String],
       },
@@ -21,22 +21,22 @@ describe('addToSchema', () => {
   });
 });
 
-describe('addArrayToSchema', () => {
-  it('should return the object with a type and the correct name', () => {
-    expect(addArrayToSchema('SomeType')('test')).toStrictEqual({
+describe("addArrayToSchema", () => {
+  it("should return the object with a type and the correct name", () => {
+    expect(addArrayToSchema("SomeType")("test")).toStrictEqual({
       test_fuzzy: {
         default: [],
         index: false,
-        type: 'SomeType',
+        type: "SomeType",
       },
     });
   });
 });
 
-describe('setTransformers', () => {
+describe("setTransformers", () => {
   const hideElements = jest.fn();
 
-  it('should call toObject and toJSON transforms when they appear', () => {
+  it("should call toObject and toJSON transforms when they appear", () => {
     const isFunction = jest.fn().mockImplementation(() => true);
     const schema = {
       options: {

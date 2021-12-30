@@ -7,9 +7,9 @@
 const replaceSymbols = (replaceLanguageCharacters) => (text, escapeSpecialCharacters) => {
   text = text.toLowerCase();
   if (escapeSpecialCharacters) {
-    text = text.replace(/[!"#%&'()*+,-./:;<=>?@[\\\]^`{|}~]/g, ''); // remove special characters
+    text = text.replace(/[!"#%&'()*+,-./:;<=>?@[\\\]^`{|}~]/g, ""); // remove special characters
   }
-  text = text.replace(/_/g, ' ');
+  text = text.replace(/_/g, " ");
   text = replaceLanguageCharacters(text);
 
   return text;
@@ -27,9 +27,9 @@ const isObject = (obj) => !!obj && obj.constructor === Object && Object.keys(obj
  * @param {any} fn
  * @return {boolean}
  */
-const isFunction = (fn) => !!(fn && (typeof fn === 'function' || fn instanceof Function));
+const isFunction = (fn) => !!(fn && (typeof fn === "function" || fn instanceof Function));
 
-const isString = (input) => typeof input === 'string' || input instanceof String;
+const isString = (input) => typeof input === "string" || input instanceof String;
 
 module.exports = {
   replaceSymbols,
