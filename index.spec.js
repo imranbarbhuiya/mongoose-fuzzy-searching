@@ -1,5 +1,5 @@
 const plugin = require(".");
-const { validMiddlewares } = require("./helpers/config");
+const { validMiddlewares } = require("./src/helpers/config");
 
 describe("fuzzy search", () => {
   const schema = {
