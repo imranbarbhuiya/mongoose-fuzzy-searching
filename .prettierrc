@@ -2,7 +2,6 @@
   "printWidth": 100,
   "singleQuote": false,
   "trailingComma": "all",
-  "endOfLine": "lf",
   "quoteProps": "preserve",
   "useTabs": false,
   "tabWidth": 2

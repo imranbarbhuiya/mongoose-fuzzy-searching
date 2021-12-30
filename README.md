@@ -1,17 +1,17 @@
-![npm](https://img.shields.io/npm/v/@imranbarbhuiya/mongoose-fuzzy-search?style=for-the-badge)
-![npm](https://img.shields.io/npm/dw/@imranbarbhuiya/mongoose-fuzzy-search?style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/imranbarbhuiya/mongoose-fuzzy-search?style=for-the-badge)
+![npm](https://img.shields.io/npm/v/@imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge)
+![npm](https://img.shields.io/npm/dw/@imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge)
 ![Lint Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-search/Lint/main?label=Lint&logo=eslint&style=for-the-badge)
 ![Test Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-search/Test/main?label=Test&style=for-the-badge&logo=Jest)
-![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/imranbarbhuiya/mongoose-fuzzy-search?logo=codefactor&style=for-the-badge)
-![Codecov](https://img.shields.io/codecov/c/github/imranbarbhuiya/mongoose-fuzzy-search?logo=codecov&style=for-the-badge&token=4EAW3WK5QV)
+![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/imranbarbhuiya/mongoose-fuzzy-searching?logo=codefactor&style=for-the-badge)
+![Codecov](https://img.shields.io/codecov/c/github/imranbarbhuiya/mongoose-fuzzy-searching?logo=codecov&style=for-the-badge&token=A9QPRB16OX)
 
 # Mongoose Fuzzy Searching
 
 ```md
-**Notice: This is a fork of the original [Mongoose Fuzzy Searching](https://github.com/VassilisPallas/mongoose-fuzzy-searching)**
+Notice: This is a fork of the original [Mongoose Fuzzy Searching](https://github.com/VassilisPallas/mongoose-fuzzy-searching)
 
-As that project is no longer maintained, SO I'm going to work on for my personal use. I'll recommend use the original one. Also if VassilisPallas starts maintaining the original project, I'll use that instead.
+As that project is no longer maintained, So I'm going to work on it for my personal use. I'll recommend use the original one. Also if VassilisPallas starts maintaining the original project, I'll use that instead.
 ```
 
 mongoose-fuzzy-searching is simple and lightweight plugin that enables fuzzy searching in documents in MongoDB.
@@ -29,7 +29,6 @@ This code is based on [this article](https://medium.com/xeneta/fuzzy-search-with
       - [Middlewares](#middlewares)
   - [Query parameters](#query-parameters)
     - [Instance method](#instance-method)
-    - [Query helper](#query-helper)
   - [Working with pre-existing data](#working-with-pre-existing-data)
     - [Update all pre-existing documents with ngrams](#update-all-pre-existing-documents-with-ngrams)
     - [Delete old ngrams from all documents](#delete-old-ngrams-from-all-documents)
@@ -55,8 +54,6 @@ Install using [npm](https://npmjs.org)
 npm i mongoose-fuzzy-searching
 ```
 
-````
-
 or using yarn
 
 ```bash
@@ -72,15 +69,9 @@ Before starting, for best practices and avoid any issues, handle correctly all t
 In order to let the plugin create the indexes, you need to set `useCreateIndex` to true. The below example demonstrates how to connect with the database.
 
 ```javascript
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
-};
+const mongoose = require("mongoose");
 
-mongoose.Promise = global.Promise;
-return mongoose.connect(URL, options);
+return mongoose.connect(URL);
 ```
 
 In the below example, we have a `User` collection and we want to make fuzzy searching in `firstName` and `lastName`.
@@ -232,8 +223,6 @@ Middlewares is an optional `Object` that can contain custom `pre` middlewares. T
   - stands for `schema.pre("save", ...)`
 - preInsertMany
   - stands for `schema.pre("insertMany", ...)`
-- preUpdate
-  - stands for `schema.pre("update", ...)`
 - preUpdateOne
   - stands for `schema.pre("updateOne", ...)`
 - preFindOneAndUpdate
@@ -335,22 +324,6 @@ User.fuzzySearch("jo", { age: { $gt: 18 } }, (err, doc) => {
 });
 ```
 
-### Query helper
-
-You can also use the query is a helper function, which is like instance methods but for mongoose queries. Query helper methods let you extend mongoose's chainable query builder API.
-
-Query helper can accept up to two parameters. The first one is the query, which can either be either a `String` or an `Object`. This parameter is **required**.
-The second parameter can be an `Object` that contains any additional queries (e.g. `age: { $gt: 18 }`), which is optional.
-This helpers doesn't accept a callback function. If you pass a function it will throw an error. More about [query helpers](https://mongoosejs.com/docs/guide.html#query-helpers).
-
-Example:
-
-```javascript
-const user = await User.find({ age: { $gte: 30 } })
-  .fuzzySearch("jo")
-  .exec();
-```
-
 ## Working with pre-existing data
 
 The plugin creates indexes for the selected fields. In the below example the new indexes will be `firstName_fuzzy` and `lastName_fuzzy`. Also, each document will have the fields `firstName_fuzzy`[String] and `lastName_fuzzy`[String]. These arrays will contain the anagrams for the selected fields.
@@ -434,4 +407,3 @@ MIT License
 ## Credit
 
 Credit goes to the original package owner [VassilisPallas](https://github.com/VassilisPallas/mongoose-fuzzy-searching)
-````

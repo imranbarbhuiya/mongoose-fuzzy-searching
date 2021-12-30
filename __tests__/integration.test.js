@@ -759,7 +759,6 @@ describe("fuzzySearch", () => {
       expect(result[0]).toHaveProperty("skill", "amazing");
     });
   });
-
   describe("mongoose_fuzzy_searching with query helper", () => {
     const Model = db.createSchema("with query helper", { name: String, age: Number })(
       fuzzySearching,
@@ -775,8 +774,8 @@ describe("fuzzySearch", () => {
       await db.seed(Model, { name: "Joe", age: 30 });
     });
 
-    it("fuzzySearch() -> should return the results by chaing queries", async () => {
-      const result = await Model.find({ age: { $gte: 30 } }).fuzzySearch("jo");
+    it("fuzzySearch() -> should return the results with filter", async () => {
+      const result = await Model.fuzzySearch("jo", { age: { $gte: 30 } });
       expect(result).toHaveLength(1);
     });
   });

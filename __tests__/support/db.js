@@ -1,15 +1,23 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const { Schema } = mongoose;
+const { MongoMemoryServer } = require("mongodb-memory-server");
 
+const mongod = new MongoMemoryServer();
+
+const getURL = () => {
+  return process.env.MONGO_SRV || mongod.getConnectionString();
+};
 const openConnection = async () => {
-  const uri = "mongodb://localhost:27017/fuzzy-test";
+  const uri = await getURL();
   return mongoose.connect(uri);
 };
 
 const closeConnection = async () => {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
+  await mongod.stop();
 };
 
 const createSchema =
