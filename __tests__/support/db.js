@@ -10,7 +10,6 @@ const openConnection = async () => {
 const closeConnection = async () => {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
-  await mongod.stop();
 };
 
 const createSchema =

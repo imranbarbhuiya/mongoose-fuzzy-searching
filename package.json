@@ -7,7 +7,7 @@
   "scripts": {
     "lint:fix": "eslint --fix .",
     "format": "prettier --write \"./**/*.{json,js}\"",
-    "lint": "eslint --ext .js \"./**/*.{json,js}\"",
+    "lint": "eslint .",
     "test:integration": "jest --colors --runInBand __tests__/**.test.js",
     "test:unit": "jest --colors spec.js",
     "test": "jest --colors --runInBand",
@@ -34,10 +34,8 @@
   },
   "devDependencies": {
     "eslint": "^8.5.0",
-    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jest": "^25.3.2",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.4.5",
     "mongoose": "^6.1.4",
