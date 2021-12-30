@@ -429,7 +429,7 @@ describe("fuzzySearch", () => {
 
       beforeAll(async () => {
         const obj = await db.seed(Model, { name: "Joe" });
-        await Model.update({ _id: obj._id }, { name: "Someone" });
+        await Model.updateOne({ _id: obj._id }, { name: "Someone" });
       });
 
       it("fuzzySearch() -> should return Promise", () => {
@@ -563,8 +563,8 @@ describe("fuzzySearch", () => {
       expect(result[0]).toHaveProperty("skill", "amazing");
     });
 
-    it("should call `preUpdate`", async () => {
-      const preUpdate = jest.fn().mockImplementation(function () {});
+    it("should call `preUpdateOne`", async () => {
+      const preUpdateOne = jest.fn().mockImplementation(function () {});
 
       const Model = db.createSchema("custom pre preUpdate", schema)(
         fuzzySearching,
@@ -575,16 +575,16 @@ describe("fuzzySearch", () => {
           },
         ],
         {
-          preUpdate,
+          preUpdateOne,
         },
       );
 
       const obj = await db.seed(Model, { name: "Joe", age: 30 });
-      await Model.update({ _id: obj._id }, { skill: "amazing" });
+      await Model.updateOne({ _id: obj._id }, { skill: "amazing" });
 
       const result = await Model.fuzzySearch({ query: "jo" });
       expect(result).toHaveLength(1);
-      expect(preUpdate).toHaveBeenCalledTimes(1);
+      expect(preUpdateOne).toHaveBeenCalledTimes(1);
       expect(result[0]).toHaveProperty("skill", "amazing");
     });
 
@@ -697,7 +697,7 @@ describe("fuzzySearch", () => {
     });
 
     it("should call `preSave` and `preUpdate`", async () => {
-      const preUpdate = jest.fn().mockImplementation(function () {});
+      const preUpdateOne = jest.fn().mockImplementation(function () {});
       const preSave = jest.fn().mockImplementation(function () {});
 
       const Model = db.createSchema("custom pre preSave and preUpdate", schema)(
@@ -710,20 +710,20 @@ describe("fuzzySearch", () => {
         ],
         {
           preSave,
-          preUpdate,
+          preUpdateOne,
         },
       );
 
       const obj = await db.seed(Model, { name: "Joe", age: 30 });
-      await Model.update({ _id: obj._id }, { skill: "amazing" });
+      await Model.updateOne({ _id: obj._id }, { skill: "amazing" });
 
       const result = await Model.fuzzySearch({ query: "jo" });
       expect(result).toHaveLength(1);
       expect(preSave).toHaveBeenCalledTimes(1);
-      expect(preUpdate).toHaveBeenCalledTimes(1);
+      expect(preUpdateOne).toHaveBeenCalledTimes(1);
       // expect preSave to be called before preUpdate
       expect(preSave.mock.invocationCallOrder[0]).toBeLessThan(
-        preUpdate.mock.invocationCallOrder[0],
+        preUpdateOne.mock.invocationCallOrder[0],
       );
       expect(result[0]).toHaveProperty("skill", "amazing");
     });

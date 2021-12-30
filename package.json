@@ -8,7 +8,7 @@
     "lint:fix": "eslint --fix .",
     "format": "prettier --write \"./**/*.{json,js}\"",
     "lint": "eslint .",
-    "test:integration": "jest --colors --runInBand __tests__/**.test.js",
+    "test:integration": "jest --colors --runInBand __tests__/",
     "test:unit": "jest --colors spec.js",
     "test": "jest --colors --runInBand",
     "test:watch": "npm test -- --watch",

@@ -1,3 +1,11 @@
+![npm](https://img.shields.io/npm/v/@imranbarbhuiya/mongoose-fuzzy-search?style=for-the-badge)
+![npm](https://img.shields.io/npm/dw/@imranbarbhuiya/mongoose-fuzzy-search?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/imranbarbhuiya/mongoose-fuzzy-search?style=for-the-badge)
+![Lint Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-search/Lint/main?label=Lint&logo=eslint&style=for-the-badge)
+![Test Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-search/Test/main?label=Test&style=for-the-badge&logo=Jest)
+![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/imranbarbhuiya/mongoose-fuzzy-search?logo=codefactor&style=for-the-badge)
+![Codecov](https://img.shields.io/codecov/c/github/imranbarbhuiya/mongoose-fuzzy-search?logo=codecov&style=for-the-badge&token=4EAW3WK5QV)
+
 # Mongoose Fuzzy Searching
 
 ```md
@@ -8,9 +16,6 @@ As that project is no longer maintained, SO I'm going to work on for my personal
 
 mongoose-fuzzy-searching is simple and lightweight plugin that enables fuzzy searching in documents in MongoDB.
 This code is based on [this article](https://medium.com/xeneta/fuzzy-search-with-mongodb-and-python-57103928ee5d).
-
-[![codecov](https://codecov.io/gh/imranbarbhuiya/mongoose-fuzzy-searching/branch/master/graph/badge.svg)](https://codecov.io/gh/imranbarbhuiya/mongoose-fuzzy-searching)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 - [Mongoose Fuzzy Searching](#mongoose-fuzzy-searching)
   - [Features](#features)
