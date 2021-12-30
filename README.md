@@ -1,8 +1,8 @@
 ![npm](https://img.shields.io/npm/v/@imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge)
 ![npm](https://img.shields.io/npm/dw/@imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge)
-![Lint Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-search/Lint/main?label=Lint&logo=eslint&style=for-the-badge)
-![Test Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-search/Test/main?label=Test&style=for-the-badge&logo=Jest)
+![Lint Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-searching/Lint/main?label=Lint&logo=eslint&style=for-the-badge)
+![Test Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-searching/Test/main?label=Test&style=for-the-badge&logo=Jest)
 ![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/imranbarbhuiya/mongoose-fuzzy-searching?logo=codefactor&style=for-the-badge)
 ![Codecov](https://img.shields.io/codecov/c/github/imranbarbhuiya/mongoose-fuzzy-searching?logo=codecov&style=for-the-badge&token=A9QPRB16OX)
 
