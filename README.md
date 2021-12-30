@@ -51,13 +51,13 @@ This code is based on [this article](https://medium.com/xeneta/fuzzy-search-with
 Install using [npm](https://npmjs.org)
 
 ```bash
-npm i mongoose-fuzzy-searching
+npm i @imranbarbhuiya/mongoose-fuzzy-searching
 ```
 
 or using yarn
 
 ```bash
-yarn add mongoose-fuzzy-searching
+yarn add @imranbarbhuiya/mongoose-fuzzy-searching
 ```
 
 ## Getting started

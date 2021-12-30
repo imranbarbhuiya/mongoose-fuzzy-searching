@@ -4,10 +4,9 @@ require("dotenv").config();
 const { Schema } = mongoose;
 const { MongoMemoryServer } = require("mongodb-memory-server");
 
-const mongod = new MongoMemoryServer();
-
-const getURL = () => {
-  return process.env.MONGO_SRV || mongod.getConnectionString();
+const getURL = async () => {
+  const mongod = await MongoMemoryServer.create();
+  return process.env.MONGO_SRV || mongod.getUri();
 };
 const openConnection = async () => {
   const uri = await getURL();
@@ -17,7 +16,6 @@ const openConnection = async () => {
 const closeConnection = async () => {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
-  await mongod.stop();
 };
 
 const createSchema =
