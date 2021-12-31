@@ -23,6 +23,7 @@ require("dotenv").config();
 const getURL = async (): Promise<string> => {
   if (process.env.MONGO_SRV) return process.env.MONGO_SRV;
   const mongod = await MongoMemoryServer.create();
+  mongod.start();
   return mongod.getUri();
 };
 
