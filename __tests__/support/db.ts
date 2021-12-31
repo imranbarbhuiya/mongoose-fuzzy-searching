@@ -3,8 +3,6 @@ import mongoose, { Document, Schema } from "mongoose";
 import fuzzySearchPlugin, { MongoosePluginModel } from "../../src";
 import { Fields, PluginSchemaOptions } from "../../src/types";
 
-const mongod = new MongoMemoryServer();
-
 export type ModelTestOptions = {
   schemaStructure: Record<string, any>;
   pluginFields: Fields;
@@ -22,19 +20,20 @@ export type ModelTestOptions = {
 };
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("dotenv").config();
-const getURL = (): string => {
-  return process.env.MONGO_SRV || mongod.getUri();
+const getURL = async (): Promise<string> => {
+  if (process.env.MONGO_SRV) return process.env.MONGO_SRV;
+  const mongod = await MongoMemoryServer.create();
+  return mongod.getUri();
 };
 
 export const openConnection = async (): Promise<typeof mongoose> => {
-  const uri = getURL();
+  const uri = await getURL();
   return mongoose.connect(uri);
 };
 
 export const closeConnection = async (): Promise<void> => {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
-  await mongod.stop();
 };
 
 class TestModel<T extends Document, U> {
