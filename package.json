@@ -15,7 +15,7 @@
     "format": "prettier --config .prettierrc --write \"./**/*.{json,ts}\"",
     "lint": "eslint --ext .ts \"./**/*.{json,ts}\"",
     "build": "tsc",
-    "test:integration": "jest --colors --runInBand __tests__/**.test.ts",
+    "test:integration": "jest --colors --runInBand __tests__/",
     "test:unit": "jest --colors spec.ts",
     "test": "jest --colors --runInBand",
     "test:watch": "npm test -- --watch",

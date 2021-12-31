@@ -23,6 +23,7 @@ This code is based on [this article](https://medium.com/xeneta/fuzzy-search-with
   - [Install](#install)
   - [Getting started](#getting-started)
     - [Initialize plugin](#initialize-plugin)
+    - [Example with typescript](#example-with-typescript)
     - [Plugin options](#plugin-options)
       - [Fields](#fields)
         - [String field](#string-field)
@@ -30,7 +31,6 @@ This code is based on [this article](https://medium.com/xeneta/fuzzy-search-with
       - [Middlewares](#middlewares)
   - [Query parameters](#query-parameters)
     - [Instance method](#instance-method)
-  - [Example with typescript](#example-with-typescript)
   - [Working with pre-existing data](#working-with-pre-existing-data)
     - [Update all pre-existing documents with ngrams](#update-all-pre-existing-documents-with-ngrams)
     - [Delete old ngrams from all documents](#delete-old-ngrams-from-all-documents)
@@ -128,6 +128,28 @@ try {
 } catch (e) {
   console.error(e);
 }
+```
+
+### Example with typescript
+
+```ts
+import mongoose_fuzzy_searching, {MongoosePluginModel} from "mongoose-fuzzy-searching";
+
+export interface IUser extends mongoose.Document{
+  firstName: string;
+  lastName: string;
+}
+
+const UserSchema<IUser> = new Schema({
+  firstName: String,
+  lastName: String,
+});
+
+UserSchema.plugin(mongoose_fuzzy_searching, {
+  fields: ["firstName"],
+});
+
+const UserModel = mongoose.model<IUser>("User", UserSchema) as MongoosePluginModel<IUser>
 ```
 
 ### Plugin options
@@ -329,28 +351,6 @@ User.fuzzySearch("jo", { age: { $gt: 18 } }, (err, doc) => {
     console.log(doc);
   }
 });
-```
-
-## Example with typescript
-
-```ts
-import mongoose_fuzzy_searching, {MongoosePluginModel} from "mongoose-fuzzy-searching";
-
-export interface IUser extends mongoose.Document{
-  firstName: string;
-  lastName: string;
-}
-
-const UserSchema<IUser> = new Schema({
-  firstName: String,
-  lastName: String,
-});
-
-UserSchema.plugin(mongoose_fuzzy_searching, {
-  fields: ["firstName"],
-});
-
-const UserModel = mongoose.model<IUser>("User", UserSchema) as MongoosePluginModel<IUser>
 ```
 
 ## Working with pre-existing data
