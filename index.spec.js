@@ -16,7 +16,7 @@ describe("fuzzy search", () => {
 
   it("should throw an Error when the fields option is undefined", () => {
     expect(plugin.bind(this, schema, {})).toThrow(
-      "You must set at least one field for fuzzy search.",
+      "You must set at least one field for fuzzy search."
     );
   });
 
@@ -32,7 +32,7 @@ describe("fuzzy search", () => {
             keys: () => {},
           },
         ],
-      }),
+      })
     ).toThrow("Key must be an array or a string.");
   });
 
@@ -41,7 +41,7 @@ describe("fuzzy search", () => {
       plugin.bind(this, schema, {
         fields: ["name"],
         middlewares: [1, 2, 3],
-      }),
+      })
     ).toThrow("Middlewares must be an object.");
   });
 
@@ -53,7 +53,7 @@ describe("fuzzy search", () => {
           preSave: () => {},
           preUpdate: "test",
         },
-      }),
+      })
     ).toThrow("Middleware must be a Function.");
   });
 
@@ -65,7 +65,7 @@ describe("fuzzy search", () => {
           preSave: () => {},
           somethingElse: () => {},
         },
-      }),
+      })
     ).toThrow(`Middleware key should be one of: [${validMiddlewares.join(", ")}].`);
   });
 });

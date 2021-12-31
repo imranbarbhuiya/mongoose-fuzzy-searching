@@ -2,17 +2,43 @@
   "env": {
     "node": true,
     "commonjs": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
-  "parserOptions": {
-    "ecmaVersion": 11,
-    "sourceType": "module"
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    }
   },
   "rules": {
-    "no-underscore-dangle": "off",
-    "no-plusplus": "off",
-    "no-param-reassign": "off",
-    "func-names": "off",
-    "max-classes-per-file": "off"
+    "semi": ["error", "always"],
+    "eol-last": ["error", "always"],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never"
+      }
+    ],
+    "arrow-parens": ["error", "always"],
+    "no-trailing-spaces": ["error", { "skipBlankLines": true }],
+    "prefer-const": "warn",
+    "accessor-pairs": "off",
+    "no-async-promise-executor": "off",
+    "no-unused-vars": "off",
+    "node/no-missing-require": "off",
+    "no-console": "warn",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

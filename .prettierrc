@@ -1,7 +1,6 @@
 {
-  "printWidth": 100,
   "singleQuote": false,
-  "trailingComma": "all",
+  "trailingComma": "es5",
   "quoteProps": "preserve",
   "useTabs": false,
   "tabWidth": 2

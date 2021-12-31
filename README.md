@@ -64,10 +64,6 @@ yarn add @imranbarbhuiya/mongoose-fuzzy-searching
 
 ### Initialize plugin
 
-Before starting, for best practices and avoid any issues, handle correctly all the [Deprecation Warnings](https://mongoosejs.com/docs/deprecations.html).
-
-In order to let the plugin create the indexes, you need to set `useCreateIndex` to true. The below example demonstrates how to connect with the database.
-
 ```javascript
 const mongoose = require("mongoose");
 
@@ -87,13 +83,20 @@ const UserSchema = new Schema({
   age: Number,
 });
 
-UserSchema.plugin(mongoose_fuzzy_searching, { fields: ["firstName", "lastName"] });
+UserSchema.plugin(mongoose_fuzzy_searching, {
+  fields: ["firstName", "lastName"],
+});
 const User = mongoose.model("User", UserSchema);
 module.exports = { User };
 ```
 
 ```javascript
-const user = new User({ firstName: "Joe", lastName: "Doe", email: "joe.doe@mail.com", age: 30 });
+const user = new User({
+  firstName: "Joe",
+  lastName: "Doe",
+  email: "joe.doe@mail.com",
+  age: 30,
+});
 
 try {
   await user.save(); // mongodb: { ..., firstName_fuzzy: [String], lastName_fuzzy: [String] }
@@ -146,7 +149,9 @@ const UserSchema = new Schema({
   email: String,
 });
 
-UserSchema.plugin(mongoose_fuzzy_searching, { fields: ["firstName", "lastName"] });
+UserSchema.plugin(mongoose_fuzzy_searching, {
+  fields: ["firstName", "lastName"],
+});
 ```
 
 ##### Object field
@@ -338,7 +343,9 @@ const UserSchema = new Schema({
   age: Number,
 });
 
-UserSchema.plugin(mongoose_fuzzy_searching, { fields: ["firstName", "lastName"] });
+UserSchema.plugin(mongoose_fuzzy_searching, {
+  fields: ["firstName", "lastName"],
+});
 ```
 
 In other words, this plugin creates anagrams when you create or update a document. All the pre-existing documents won't contain these fuzzy arrays, so `fuzzySearch` function, will not be able to find them.
@@ -362,8 +369,15 @@ In the previous example, we set `firstName` and `lastName` as the fuzzy attribut
 ```javascript
 const cursor = Model.find().cursor();
 cursor.next(function (error, doc) {
-  const $unset = attrs.reduce((acc, attr) => ({ ...acc, [`${attr}_fuzzy`]: 1 }), {});
-  return Model.findByIdAndUpdate(data._id, { $unset }, { new: true, strict: false });
+  const $unset = attrs.reduce(
+    (acc, attr) => ({ ...acc, [`${attr}_fuzzy`]: 1 }),
+    {}
+  );
+  return Model.findByIdAndUpdate(
+    data._id,
+    { $unset },
+    { new: true, strict: false }
+  );
 });
 ```
 
