@@ -1,6 +1,6 @@
 {
   "name": "@imranbarbhuiya/mongoose-fuzzy-searching",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "author": "imranbarbhuiya",
   "description": "Mongoose fuzzy searching plugin",
   "files": [
