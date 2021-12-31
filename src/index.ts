@@ -8,6 +8,7 @@ import {
 import { Attributes, PluginSchemaOptions } from "./types";
 
 export { confidenceScore, sort } from "./helpers/db/search";
+export * from "./types";
 export { MongoosePluginModel } from "./types";
 
 const plugin = function (

@@ -124,7 +124,7 @@ The results are sorted by the `confidenceScore` key. You can override this optio
 
 ```javascript
 try {
-  const users = await User.fuzzySearch("jo").sort({ age: -1 }).exec();
+  const users = await User.fuzzySearch("jo").sort({ age: -1 });
   console.log(users);
 } catch (e) {
   console.error(e);
