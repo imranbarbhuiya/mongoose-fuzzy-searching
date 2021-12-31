@@ -2,11 +2,10 @@ import { IndexDefinition, Schema, UpdateQuery } from "mongoose";
 import {
   createFields,
   createNGramsMiddleware,
-  QueryFuzzySearch,
   setTransformers,
   StaticFuzzySearch,
 } from "./helpers";
-import { Attributes, PluginSchemaOptions, QueryFuzzyParameters } from "./types";
+import { Attributes, PluginSchemaOptions } from "./types";
 
 export { confidenceScore, sort } from "./helpers/db/search";
 export { MongoosePluginModel } from "./types";
@@ -55,10 +54,6 @@ const plugin = function (
 
   schema.statics.fuzzySearch = function (...args: any[]) {
     return new StaticFuzzySearch(...args).search(this);
-  };
-
-  schema.query.fuzzySearch = function (...args: QueryFuzzyParameters) {
-    return new QueryFuzzySearch(...args).search(this);
   };
 };
 

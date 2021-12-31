@@ -20,11 +20,10 @@ export type ModelTestOptions = {
     fn: any;
   }[];
 };
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require("dotenv").config();
 const getURL = (): string => {
-  return process.env.MONGO_DB
-    ? "mongodb://localhost:27017/fuzzy-test"
-    : mongod.getUri();
+  return process.env.MONGO_SRV || mongod.getUri();
 };
 
 export const openConnection = async (): Promise<typeof mongoose> => {

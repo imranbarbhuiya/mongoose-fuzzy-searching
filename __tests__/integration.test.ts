@@ -1,4 +1,3 @@
-import { confidenceScore, sort as pluginSort } from "../src";
 import { Fields } from "../src/types";
 import { closeConnection, createTestModel, openConnection } from "./support/db";
 
@@ -543,52 +542,6 @@ describe("fuzzySearch", () => {
       });
     });
 
-    describe("mongoose_fuzzy_searching update user with `update`", () => {
-      const schemaStructure = {
-        name: String,
-      };
-
-      interface TestSchema {
-        name: string;
-      }
-
-      const pluginFields: Fields = [
-        {
-          name: "name",
-          minSize: 2,
-        },
-      ];
-
-      const TestModel = createTestModel<TestSchema>(
-        "pre update user with update",
-        {
-          schemaStructure,
-          pluginFields,
-        }
-      );
-      const Model = TestModel.model;
-
-      beforeAll(async () => {
-        const obj = await TestModel.seed({ name: "Joe" });
-        await Model.update({ _id: obj._id }, { name: "Someone" });
-      });
-
-      it("fuzzySearch() -> should return Promise", () => {
-        const result = Model.fuzzySearch("some");
-        expect(result).toHaveProperty("then");
-      });
-
-      it("fuzzySearch() -> should find one user with string as first parameter", async () => {
-        const result = await Model.fuzzySearch("some");
-        expect(result).toHaveLength(1);
-      });
-
-      it("fuzzySearch() -> should find one user with object as first parameter", async () => {
-        const result = await Model.fuzzySearch({ query: "some" });
-        expect(result).toHaveLength(1);
-      });
-    });
-
     describe("mongoose_fuzzy_searching update user with `updateOne`", () => {
       const schemaStructure = {
         name: String,
@@ -758,57 +711,6 @@ describe("fuzzySearch", () => {
       expect(result[0]).toHaveProperty("skill", "amazing");
     });
 
-    it("should call `preUpdate`", async () => {
-      const preUpdate = jest.fn();
-
-      const TestModel = createTestModel<TestSchema>("custom pre preUpdate", {
-        schemaStructure,
-        pluginFields,
-        middlewares: [
-          {
-            name: "update",
-            fn: preUpdate,
-          },
-        ],
-      });
-      const Model = TestModel.model;
-
-      const obj = await TestModel.seed({ name: "Joe", age: 30 });
-      await Model.update({ _id: obj._id }, { skill: "amazing" });
-
-      const result = await Model.fuzzySearch({ query: "jo" });
-      expect(result).toHaveLength(1);
-      expect(preUpdate).toHaveBeenCalledTimes(1);
-      expect(result[0]).toHaveProperty("skill", "amazing");
-    });
-
-    it("should call `preFindOneAndUpdate`", async () => {
-      const preFindOneAndUpdate = jest.fn();
-
-      const TestModel = createTestModel<TestSchema>(
-        "custom pre preFindOneAndUpdate",
-        {
-          schemaStructure,
-          pluginFields,
-          middlewares: [
-            {
-              name: "findOneAndUpdate",
-              fn: preFindOneAndUpdate,
-            },
-          ],
-        }
-      );
-      const Model = TestModel.model;
-
-      const obj = await TestModel.seed({ name: "Joe", age: 30 });
-      await Model.findByIdAndUpdate(obj._id, { skill: "amazing" });
-
-      const result = await Model.fuzzySearch({ query: "jo" });
-      expect(result).toHaveLength(1);
-      expect(preFindOneAndUpdate).toHaveBeenCalledTimes(1);
-      expect(result[0]).toHaveProperty("skill", "amazing");
-    });
-
     it("should call `preInsertMany`", async () => {
       const docs = [
         { name: "Joe", age: 30 },
@@ -898,44 +800,6 @@ describe("fuzzySearch", () => {
       expect(result[0]).toHaveProperty("skill", "amazing");
     });
 
-    it("should call `preSave` and `preUpdate`", async () => {
-      const preUpdate = jest.fn();
-      const preSave = jest.fn();
-
-      const TestModel = createTestModel<TestSchema>(
-        "custom pre preSave and preUpdate",
-        {
-          schemaStructure,
-          pluginFields,
-          middlewares: [
-            {
-              name: "save",
-              fn: preSave,
-            },
-            {
-              name: "update",
-              fn: preUpdate,
-            },
-          ],
-        }
-      );
-      const Model = TestModel.model;
-      const obj = await TestModel.seed({ name: "Joe", age: 30 });
-
-      await Model.update({ _id: obj._id }, { skill: "amazing" });
-
-      const result = await Model.fuzzySearch({ query: "jo" });
-
-      expect(result).toHaveLength(1);
-      expect(preSave).toHaveBeenCalledTimes(1);
-      expect(preUpdate).toHaveBeenCalledTimes(1);
-      // expect preSave to be called before preUpdate
-      expect(preSave.mock.invocationCallOrder[0]).toBeLessThan(
-        preUpdate.mock.invocationCallOrder[0]
-      );
-      expect(result[0]).toHaveProperty("skill", "amazing");
-    });
-
     it("should call promise", async () => {
       const preSave = jest
         .fn()
@@ -968,41 +832,6 @@ describe("fuzzySearch", () => {
       expect(result).toHaveLength(1);
       expect(preSave).toHaveBeenCalledTimes(1);
       expect(result[0]).toHaveProperty("skill", "amazing");
-    });
-  });
-
-  describe("mongoose_fuzzy_searching with query helper", () => {
-    const schemaStructure = { name: String, age: Number };
-
-    interface TestSchema {
-      name: string;
-      age: number;
-    }
-
-    const pluginFields: Fields = [
-      {
-        name: "name",
-        minSize: 2,
-      },
-    ];
-
-    const TestModel = createTestModel<TestSchema>("with query helper", {
-      schemaStructure,
-      pluginFields,
-    });
-    const Model = TestModel.model;
-
-    beforeAll(async () => {
-      await TestModel.seed({ name: "Joe", age: 30 });
-    });
-
-    it("fuzzySearch() -> should return the results by chaing queries", async () => {
-      const result = await Model.find(
-        { age: { $gte: 30 } },
-        confidenceScore,
-        pluginSort
-      ).fuzzySearch("jo");
-      expect(result).toHaveLength(1);
     });
   });
 });
