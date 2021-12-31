@@ -1,0 +1,325 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@imranbarbhuiya/mongoose-fuzzy-searching</title><meta name="description" content="Documentation for @imranbarbhuiya/mongoose-fuzzy-searching"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">@imranbarbhuiya/mongoose-fuzzy-searching</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>@imranbarbhuiya/mongoose-fuzzy-searching</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography"><p><img src="https://img.shields.io/npm/v/@imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge" alt="npm">
+<img src="https://img.shields.io/npm/dw/@imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge" alt="npm">
+<img src="https://img.shields.io/github/license/imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge" alt="MIT">
+<img src="https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-searching/Lint/main?label=Lint&logo=eslint&style=for-the-badge" alt="Lint Status">
+<img src="https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-searching/Build/main?label=Build&logo=typescript&style=for-the-badge" alt="Build Status">
+<img src="https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-searching/Test/main?label=Test&style=for-the-badge&logo=Jest" alt="Test Status">
+<img src="https://img.shields.io/codefactor/grade/github/imranbarbhuiya/mongoose-fuzzy-searching?logo=codefactor&style=for-the-badge" alt="CodeFactor Grade">
+<img src="https://img.shields.io/codecov/c/github/imranbarbhuiya/mongoose-fuzzy-searching?logo=codecov&style=for-the-badge&token=A9QPRB16OX" alt="Codecov"></p>
+
+<a href="#mongoose-fuzzy-searching" id="mongoose-fuzzy-searching" style="color: inherit; text-decoration: none;">
+  <h1>Mongoose Fuzzy Searching</h1>
+</a>
+<p>mongoose-fuzzy-searching is simple and lightweight plugin that enables fuzzy searching in documents in MongoDB.
+This code is based on <a href="https://medium.com/xeneta/fuzzy-search-with-mongodb-and-python-57103928ee5d">this article</a>.</p>
+
+<a href="#note" id="note" style="color: inherit; text-decoration: none;">
+  <h2>Note</h2>
+</a>
+<p>*Notice: This is a fork of the original <a href="https://github.com/VassilisPallas/mongoose-fuzzy-searching">Mongoose Fuzzy Searching</a></p>
+<p>As that project is no longer maintained, So I&#39;m going to work on it for my personal use. I&#39;ll recommend use the original one. Also if VassilisPallas starts maintaining the original project, I&#39;ll use that instead.</p>
+<ul>
+<li><a href="#mongoose-fuzzy-searching">Mongoose Fuzzy Searching</a><ul>
+<li><a href="#note">Note</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#install">Install</a></li>
+<li><a href="#getting-started">Getting started</a><ul>
+<li><a href="#initialize-plugin">Initialize plugin</a></li>
+<li><a href="#example-with-typescript">Example with typescript</a></li>
+<li><a href="#plugin-options">Plugin options</a><ul>
+<li><a href="#fields">Fields</a><ul>
+<li><a href="#string-field">String field</a></li>
+<li><a href="#object-field">Object field</a></li>
+</ul>
+</li>
+<li><a href="#middlewares">Middlewares</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#query-parameters">Query parameters</a><ul>
+<li><a href="#instance-method">Instance method</a></li>
+</ul>
+</li>
+<li><a href="#working-with-pre-existing-data">Working with pre-existing data</a><ul>
+<li><a href="#update-all-pre-existing-documents-with-ngrams">Update all pre-existing documents with ngrams</a></li>
+<li><a href="#delete-old-ngrams-from-all-documents">Delete old ngrams from all documents</a></li>
+</ul>
+</li>
+<li><a href="#testing-and-code-coverage">Testing and code coverage</a><ul>
+<li><a href="#all-tests">All tests</a></li>
+<li><a href="#available-test-suites">Available test suites</a><ul>
+<li><a href="#unit-tests">unit tests</a></li>
+<li><a href="#integration-tests">Integration tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#license">License</a></li>
+<li><a href="#credit">Credit</a></li>
+</ul>
+</li>
+</ul>
+
+<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+  <h2>Features</h2>
+</a>
+<ul>
+<li>Creates Ngrams for the selected keys in the collection</li>
+<li><a href="#simple-usage">Add <strong>fuzzySearch</strong> method on model</a></li>
+<li><a href="#work-with-pre-existing-data">Work with pre-existing data</a></li>
+</ul>
+
+<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+  <h2>Install</h2>
+</a>
+<p>Install using <a href="https://npmjs.org">npm</a></p>
+<pre><code class="language-bash"><span class="hl-0">npm i @imranbarbhuiya/mongoose-fuzzy-searching</span>
+</code></pre>
+<p>or using yarn</p>
+<pre><code class="language-bash"><span class="hl-0">yarn add @imranbarbhuiya/mongoose-fuzzy-searching</span>
+</code></pre>
+
+<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+  <h2>Getting started</h2>
+</a>
+
+<a href="#initialize-plugin" id="initialize-plugin" style="color: inherit; text-decoration: none;">
+  <h3>Initialize plugin</h3>
+</a>
+<pre><code class="language-javascript"><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">mongoose</span><span class="hl-0"> = </span><span class="hl-3">require</span><span class="hl-0">(</span><span class="hl-4">&quot;mongoose&quot;</span><span class="hl-0">);</span><br/><br/><span class="hl-5">return</span><span class="hl-0"> </span><span class="hl-6">mongoose</span><span class="hl-0">.</span><span class="hl-3">connect</span><span class="hl-0">(</span><span class="hl-2">URL</span><span class="hl-0">);</span>
+</code></pre>
+<p>In the below example, we have a <code>User</code> collection and we want to make fuzzy searching in <code>firstName</code> and <code>lastName</code>.</p>
+<pre><code class="language-javascript"><span class="hl-1">const</span><span class="hl-0"> { </span><span class="hl-2">Schema</span><span class="hl-0"> } = </span><span class="hl-3">require</span><span class="hl-0">(</span><span class="hl-4">&quot;mongoose&quot;</span><span class="hl-0">);</span><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">mongoose_fuzzy_searching</span><span class="hl-0"> = </span><span class="hl-3">require</span><span class="hl-0">(</span><span class="hl-4">&quot;@imranbarbhuiya/mongoose-fuzzy-searching&quot;</span><span class="hl-0">);</span><br/><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">UserSchema</span><span class="hl-0"> = </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">Schema</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-6">firstName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">lastName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">email:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">age:</span><span class="hl-0"> </span><span class="hl-7">Number</span><span class="hl-0">,</span><br/><span class="hl-0">});</span><br/><br/><span class="hl-6">UserSchema</span><span class="hl-0">.</span><span class="hl-3">plugin</span><span class="hl-0">(</span><span class="hl-6">mongoose_fuzzy_searching</span><span class="hl-0">, {</span><br/><span class="hl-0">  </span><span class="hl-6">fields:</span><span class="hl-0"> [</span><span class="hl-4">&quot;firstName&quot;</span><span class="hl-0">, </span><span class="hl-4">&quot;lastName&quot;</span><span class="hl-0">],</span><br/><span class="hl-0">});</span><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">User</span><span class="hl-0"> = </span><span class="hl-6">mongoose</span><span class="hl-0">.</span><span class="hl-3">model</span><span class="hl-0">(</span><span class="hl-4">&quot;User&quot;</span><span class="hl-0">, </span><span class="hl-6">UserSchema</span><span class="hl-0">);</span><br/><span class="hl-7">module</span><span class="hl-0">.</span><span class="hl-7">exports</span><span class="hl-0"> = { </span><span class="hl-6">User</span><span class="hl-0"> };</span>
+</code></pre>
+<pre><code class="language-javascript"><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">user</span><span class="hl-0"> = </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">User</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-6">firstName:</span><span class="hl-0"> </span><span class="hl-4">&quot;Joe&quot;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">lastName:</span><span class="hl-0"> </span><span class="hl-4">&quot;Doe&quot;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">email:</span><span class="hl-0"> </span><span class="hl-4">&quot;joe.doe@mail.com&quot;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">age:</span><span class="hl-0"> </span><span class="hl-8">30</span><span class="hl-0">,</span><br/><span class="hl-0">});</span><br/><br/><span class="hl-5">try</span><span class="hl-0"> {</span><br/><span class="hl-0">  </span><span class="hl-5">await</span><span class="hl-0"> </span><span class="hl-6">user</span><span class="hl-0">.</span><span class="hl-3">save</span><span class="hl-0">(); </span><span class="hl-9">// mongodb: { ..., firstName_fuzzy: [String], lastName_fuzzy: [String] }</span><br/><span class="hl-0">  </span><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">users</span><span class="hl-0"> = </span><span class="hl-5">await</span><span class="hl-0"> </span><span class="hl-6">User</span><span class="hl-0">.</span><span class="hl-3">fuzzySearch</span><span class="hl-0">(</span><span class="hl-4">&quot;jo&quot;</span><span class="hl-0">);</span><br/><br/><span class="hl-0">  </span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-3">log</span><span class="hl-0">(</span><span class="hl-6">users</span><span class="hl-0">);</span><br/><span class="hl-0">  </span><span class="hl-9">// each user object will not contain the fuzzy keys:</span><br/><span class="hl-0">  </span><span class="hl-9">// Eg.</span><br/><span class="hl-0">  </span><span class="hl-9">// {</span><br/><span class="hl-0">  </span><span class="hl-9">//   &quot;firstName&quot;: &quot;Joe&quot;,</span><br/><span class="hl-0">  </span><span class="hl-9">//   &quot;lastName&quot;: &quot;Doe&quot;,</span><br/><span class="hl-0">  </span><span class="hl-9">//   &quot;email&quot;: &quot;joe.doe@mail.com&quot;,</span><br/><span class="hl-0">  </span><span class="hl-9">//   &quot;age&quot;: 30,</span><br/><span class="hl-0">  </span><span class="hl-9">//   &quot;confidenceScore&quot;: 34.3 ($text meta score)</span><br/><span class="hl-0">  </span><span class="hl-9">// }</span><br/><span class="hl-0">} </span><span class="hl-5">catch</span><span class="hl-0"> (</span><span class="hl-6">e</span><span class="hl-0">) {</span><br/><span class="hl-0">  </span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-3">error</span><span class="hl-0">(</span><span class="hl-6">e</span><span class="hl-0">);</span><br/><span class="hl-0">}</span>
+</code></pre>
+<p>The results are sorted by the <code>confidenceScore</code> key. You can override this option.</p>
+<pre><code class="language-javascript"><span class="hl-5">try</span><span class="hl-0"> {</span><br/><span class="hl-0">  </span><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">users</span><span class="hl-0"> = </span><span class="hl-5">await</span><span class="hl-0"> </span><span class="hl-6">User</span><span class="hl-0">.</span><span class="hl-3">fuzzySearch</span><span class="hl-0">(</span><span class="hl-4">&quot;jo&quot;</span><span class="hl-0">).</span><span class="hl-3">sort</span><span class="hl-0">({ </span><span class="hl-6">age:</span><span class="hl-0"> -</span><span class="hl-8">1</span><span class="hl-0"> }).</span><span class="hl-3">exec</span><span class="hl-0">();</span><br/><span class="hl-0">  </span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-3">log</span><span class="hl-0">(</span><span class="hl-6">users</span><span class="hl-0">);</span><br/><span class="hl-0">} </span><span class="hl-5">catch</span><span class="hl-0"> (</span><span class="hl-6">e</span><span class="hl-0">) {</span><br/><span class="hl-0">  </span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-3">error</span><span class="hl-0">(</span><span class="hl-6">e</span><span class="hl-0">);</span><br/><span class="hl-0">}</span>
+</code></pre>
+
+<a href="#example-with-typescript" id="example-with-typescript" style="color: inherit; text-decoration: none;">
+  <h3>Example with typescript</h3>
+</a>
+<pre><code class="language-ts"><span class="hl-5">import</span><span class="hl-0"> </span><span class="hl-6">mongoose_fuzzy_searching</span><span class="hl-0">, {</span><span class="hl-6">MongoosePluginModel</span><span class="hl-0">} </span><span class="hl-5">from</span><span class="hl-0"> </span><span class="hl-4">&quot;@imranbarbhuiya/mongoose-fuzzy-searching&quot;</span><span class="hl-0">;</span><br/><br/><span class="hl-5">export</span><span class="hl-0"> </span><span class="hl-1">interface</span><span class="hl-0"> </span><span class="hl-7">IUser</span><span class="hl-0"> </span><span class="hl-1">extends</span><span class="hl-0"> </span><span class="hl-7">mongoose</span><span class="hl-0">.</span><span class="hl-7">Document</span><span class="hl-0">{</span><br/><span class="hl-0">  </span><span class="hl-6">firstName</span><span class="hl-0">: </span><span class="hl-7">string</span><span class="hl-0">;</span><br/><span class="hl-0">  </span><span class="hl-6">lastName</span><span class="hl-0">: </span><span class="hl-7">string</span><span class="hl-0">;</span><br/><span class="hl-0">  </span><span class="hl-6">email</span><span class="hl-0">: </span><span class="hl-7">string</span><span class="hl-0">;</span><br/><span class="hl-0">  </span><span class="hl-6">age</span><span class="hl-0">: </span><span class="hl-7">number</span><span class="hl-0">;</span><br/><span class="hl-0">}</span><br/><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">UserSchema</span><span class="hl-0">&lt;IUser&gt; = </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">Schema</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-6">firstName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">lastName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">email:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">age:</span><span class="hl-0"> </span><span class="hl-7">Number</span><span class="hl-0">,</span><br/><span class="hl-0">});</span><br/><br/><span class="hl-6">UserSchema</span><span class="hl-0">.</span><span class="hl-3">plugin</span><span class="hl-0">(</span><span class="hl-6">mongoose_fuzzy_searching</span><span class="hl-0">, {</span><br/><span class="hl-0">  </span><span class="hl-6">fields:</span><span class="hl-0"> [</span><span class="hl-4">&quot;firstName&quot;</span><span class="hl-0">, </span><span class="hl-4">&quot;lastName&quot;</span><span class="hl-0">],</span><br/><span class="hl-0">});</span><br/><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">UserModel</span><span class="hl-0"> = </span><span class="hl-6">mongoose</span><span class="hl-0">.</span><span class="hl-3">model</span><span class="hl-0">&lt;</span><span class="hl-7">IUser</span><span class="hl-0">&gt;(</span><span class="hl-4">&quot;User&quot;</span><span class="hl-0">, </span><span class="hl-6">UserSchema</span><span class="hl-0">) </span><span class="hl-5">as</span><span class="hl-0"> </span><span class="hl-7">MongoosePluginModel</span><span class="hl-0">&lt;</span><span class="hl-7">IUser</span><span class="hl-0">&gt;</span>
+</code></pre>
+
+<a href="#plugin-options" id="plugin-options" style="color: inherit; text-decoration: none;">
+  <h3>Plugin options</h3>
+</a>
+<p>Options can contain <code>fields</code> and <code>middlewares</code>.</p>
+
+<a href="#fields" id="fields" style="color: inherit; text-decoration: none;">
+  <h4>Fields</h4>
+</a>
+<p>Fields attribute is mandatory and should be either an array of <code>Strings</code> or an array of <code>Objects</code>.</p>
+
+<a href="#string-field" id="string-field" style="color: inherit; text-decoration: none;">
+  <h5>String field</h5>
+</a>
+<p>If you want to use the default options for all your fields, you can just pass them as a string.</p>
+<pre><code class="language-javascript"><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">mongoose_fuzzy_searching</span><span class="hl-0"> = </span><span class="hl-3">require</span><span class="hl-0">(</span><span class="hl-4">&quot;@imranbarbhuiya/mongoose-fuzzy-searching&quot;</span><span class="hl-0">);</span><br/><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">UserSchema</span><span class="hl-0"> = </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">Schema</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-6">firstName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">lastName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">email:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">});</span><br/><br/><span class="hl-6">UserSchema</span><span class="hl-0">.</span><span class="hl-3">plugin</span><span class="hl-0">(</span><span class="hl-6">mongoose_fuzzy_searching</span><span class="hl-0">, {</span><br/><span class="hl-0">  </span><span class="hl-6">fields:</span><span class="hl-0"> [</span><span class="hl-4">&quot;firstName&quot;</span><span class="hl-0">, </span><span class="hl-4">&quot;lastName&quot;</span><span class="hl-0">],</span><br/><span class="hl-0">});</span>
+</code></pre>
+
+<a href="#object-field" id="object-field" style="color: inherit; text-decoration: none;">
+  <h5>Object field</h5>
+</a>
+<p>In case you want to override any of the default options for your arguments, you can add them as an object
+and override any of the values you wish.
+The below table contains the expected keys for this object.</p>
+<table>
+<thead>
+<tr>
+<th><strong>key</strong></th>
+<th><strong>type</strong></th>
+<th><strong>default</strong></th>
+<th><strong>description</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>name</td>
+<td><strong>String</strong></td>
+<td>null</td>
+<td>Collection key name</td>
+</tr>
+<tr>
+<td>minSize</td>
+<td><strong>Integer</strong></td>
+<td>2</td>
+<td>N-grams min size. <a href="http://text-analytics101.rxnlp.com/2014/11/what-are-n-grams.html">Learn more about N-grams</a></td>
+</tr>
+<tr>
+<td>weight</td>
+<td><strong>Integer</strong></td>
+<td>1</td>
+<td>Denotes the significance of the field relative to the other indexed fields in terms of the text search score. <a href="https://docs.mongodb.com/manual/tutorial/control-results-of-text-search/">Learn more about index weights</a></td>
+</tr>
+<tr>
+<td>prefixOnly</td>
+<td><strong>Boolean</strong></td>
+<td>false</td>
+<td>Only return ngrams from start of word. (It gives more precise results)</td>
+</tr>
+<tr>
+<td>escapeSpecialCharacters</td>
+<td><strong>Boolean</strong></td>
+<td>true</td>
+<td>Remove special characters from N-grams.</td>
+</tr>
+<tr>
+<td>keys</td>
+<td><strong>Array[String]</strong></td>
+<td>null</td>
+<td>If the type of the collection attribute is <code>Object</code> or <code>[Object]</code> (see example), you can define which attributes will be used for fuzzy searching</td>
+</tr>
+</tbody></table>
+<p>Example:</p>
+<pre><code class="language-javascript"><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">mongoose_fuzzy_searching</span><span class="hl-0"> = </span><span class="hl-3">require</span><span class="hl-0">(</span><span class="hl-4">&#39;mongoose-fuzzy-searching&#39;</span><span class="hl-0">);</span><br/><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">UserSchema</span><span class="hl-0"> = </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">Schema</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-6">firstName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">lastName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">email:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">content:</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-6">en:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-6">de:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-6">it:</span><span class="hl-0"> </span><span class="hl-7">String</span><br/><span class="hl-0">  }</span><br/><span class="hl-0">  </span><span class="hl-6">text</span><span class="hl-0">: [</span><br/><span class="hl-0">    {</span><br/><span class="hl-0">      </span><span class="hl-6">title:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-6">description:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-6">language:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">    },</span><br/><span class="hl-0">  ],</span><br/><span class="hl-0">});</span><br/><br/><span class="hl-6">UserSchema</span><span class="hl-0">.</span><span class="hl-3">plugin</span><span class="hl-0">(</span><span class="hl-6">mongoose_fuzzy_searching</span><span class="hl-0">, {</span><br/><span class="hl-0">  </span><span class="hl-6">fields:</span><span class="hl-0"> [</span><br/><span class="hl-0">    {</span><br/><span class="hl-0">      </span><span class="hl-6">name:</span><span class="hl-0"> </span><span class="hl-4">&#39;firstName&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-6">minSize:</span><span class="hl-0"> </span><span class="hl-8">2</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-6">weight:</span><span class="hl-0"> </span><span class="hl-8">5</span><span class="hl-0">,</span><br/><span class="hl-0">    },</span><br/><span class="hl-0">    {</span><br/><span class="hl-0">      </span><span class="hl-6">name:</span><span class="hl-0"> </span><span class="hl-4">&#39;lastName&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-6">minSize:</span><span class="hl-0"> </span><span class="hl-8">3</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-6">prefixOnly:</span><span class="hl-0"> </span><span class="hl-1">true</span><span class="hl-0">,</span><br/><span class="hl-0">    },</span><br/><span class="hl-0">    {</span><br/><span class="hl-0">      </span><span class="hl-6">name:</span><span class="hl-0"> </span><span class="hl-4">&#39;email&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-6">escapeSpecialCharacters:</span><span class="hl-0"> </span><span class="hl-1">false</span><span class="hl-0">,</span><br/><span class="hl-0">    },</span><br/><span class="hl-0">    {</span><br/><span class="hl-0">      </span><span class="hl-6">name:</span><span class="hl-0"> </span><span class="hl-4">&#39;content&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-6">keys:</span><span class="hl-0"> [</span><span class="hl-4">&#39;en&#39;</span><span class="hl-0">, </span><span class="hl-4">&#39;de&#39;</span><span class="hl-0">, </span><span class="hl-4">&#39;it&#39;</span><span class="hl-0">],</span><br/><span class="hl-0">    },</span><br/><span class="hl-0">    {</span><br/><span class="hl-0">      </span><span class="hl-6">name:</span><span class="hl-0"> </span><span class="hl-4">&#39;text&#39;</span><span class="hl-0">,</span><br/><span class="hl-0">      </span><span class="hl-6">keys:</span><span class="hl-0"> [</span><span class="hl-4">&#39;title&#39;</span><span class="hl-0">, </span><span class="hl-4">&#39;language&#39;</span><span class="hl-0">],</span><br/><span class="hl-0">    },</span><br/><span class="hl-0">  ],</span><br/><span class="hl-0">});</span>
+</code></pre>
+
+<a href="#middlewares" id="middlewares" style="color: inherit; text-decoration: none;">
+  <h4>Middlewares</h4>
+</a>
+<p>Middlewares is an optional <code>Object</code> that can contain custom <code>pre</code> middlewares. This plugin is using these middlewares in order to create or update the fuzzy elements. That means that if you add <code>pre</code> middlewares, they will never get called since the plugin overrides them. To avoid that problem you can pass your custom midlewares into the plugin. Your middlewares will be called <strong>first</strong>. The middlewares you can pass are:</p>
+<ul>
+<li>preSave<ul>
+<li>stands for <code>schema.pre(&quot;save&quot;, ...)</code></li>
+</ul>
+</li>
+<li>preInsertMany<ul>
+<li>stands for <code>schema.pre(&quot;insertMany&quot;, ...)</code></li>
+</ul>
+</li>
+<li>preUpdateOne<ul>
+<li>stands for <code>schema.pre(&quot;updateOne&quot;, ...)</code></li>
+</ul>
+</li>
+<li>preFindOneAndUpdate<ul>
+<li>stands for <code>schema.pre(&quot;findOneAndUpdate&quot;, ...)</code></li>
+</ul>
+</li>
+<li>preUpdateMany<ul>
+<li>stands for <code>schema.pre(&quot;updateMany&quot;, ...)</code></li>
+</ul>
+</li>
+</ul>
+<p>If you want to add any of the middlewares above, you can add it directly on the plugin.</p>
+<pre><code class="language-javascript"><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">mongoose_fuzzy_searching</span><span class="hl-0"> = </span><span class="hl-3">require</span><span class="hl-0">(</span><span class="hl-4">&quot;@imranbarbhuiya/mongoose-fuzzy-searching&quot;</span><span class="hl-0">);</span><br/><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">UserSchema</span><span class="hl-0"> = </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">Schema</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-6">firstName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">lastName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">});</span><br/><br/><span class="hl-6">UserSchema</span><span class="hl-0">.</span><span class="hl-3">plugin</span><span class="hl-0">(</span><span class="hl-6">mongoose_fuzzy_searching</span><span class="hl-0">, {</span><br/><span class="hl-0">  </span><span class="hl-6">fields:</span><span class="hl-0"> [</span><span class="hl-4">&quot;firstName&quot;</span><span class="hl-0">],</span><br/><span class="hl-0">  </span><span class="hl-6">middlewares:</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-3">preSave</span><span class="hl-6">:</span><span class="hl-0"> </span><span class="hl-1">function</span><span class="hl-0"> () {</span><br/><span class="hl-0">      </span><span class="hl-9">// do something before the object is saved</span><br/><span class="hl-0">    },</span><br/><span class="hl-0">  },</span><br/><span class="hl-0">});</span>
+</code></pre>
+<p>Middlewares can also be asynchronous functions:</p>
+<pre><code class="language-javascript"><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">mongoose_fuzzy_searching</span><span class="hl-0"> = </span><span class="hl-3">require</span><span class="hl-0">(</span><span class="hl-4">&#39;mongoose-fuzzy-searching&#39;</span><span class="hl-0">);</span><br/><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">UserSchema</span><span class="hl-0"> = </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">Schema</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-6">firstName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">lastName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">});</span><br/><br/><span class="hl-6">UserSchema</span><span class="hl-0">.</span><span class="hl-3">plugin</span><span class="hl-0">(</span><span class="hl-6">mongoose_fuzzy_searching</span><span class="hl-0">, {</span><br/><span class="hl-0">  </span><span class="hl-6">fields:</span><span class="hl-0"> [</span><span class="hl-4">&#39;firstName&#39;</span><span class="hl-0">],</span><br/><span class="hl-0">  </span><span class="hl-6">middlewares:</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-3">preUpdateOne</span><span class="hl-6">:</span><span class="hl-0"> </span><span class="hl-1">async</span><span class="hl-0"> </span><span class="hl-1">function</span><span class="hl-0"> {</span><br/><span class="hl-0">      </span><span class="hl-9">// do something before the object is updated (asynchronous)</span><br/><span class="hl-0">    }</span><br/><span class="hl-0">  }</span><br/><span class="hl-0">});</span>
+</code></pre>
+
+<a href="#query-parameters" id="query-parameters" style="color: inherit; text-decoration: none;">
+  <h2>Query parameters</h2>
+</a>
+<p>The fuzzy search query can be used either as <code>static</code> function, or as a <code>helper</code>, which let&#39;s you to chain multiple queries together. The function name in either case is surprise, surprise, <code>fuzzySearch</code>.</p>
+
+<a href="#instance-method" id="instance-method" style="color: inherit; text-decoration: none;">
+  <h3>Instance method</h3>
+</a>
+<p>Instance method can accept up to three parameters. The first one is the query, which can either be either a <code>String</code> or an <code>Object</code>. This parameter is <strong>required</strong>.
+The second parameter can either be eiter an <code>Object</code> that contains any additional queries (e.g. <code>age: { $gt: 18 }</code>), or a callback function.
+If the second parameter is the queries, then the third parameter is the callback function. If you don&#39;t set a callback function, the results will be returned inside a Promise.</p>
+<p>The below table contains the expected keys for the first parameter (if is an object)</p>
+<table>
+<thead>
+<tr>
+<th><strong>key</strong></th>
+<th><strong>type</strong></th>
+<th><strong>deafult</strong></th>
+<th><strong>description</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>query</td>
+<td><strong>String</strong></td>
+<td>null</td>
+<td>String to search</td>
+</tr>
+<tr>
+<td>minSize</td>
+<td><strong>Integer</strong></td>
+<td>2</td>
+<td>N-grams min size.</td>
+</tr>
+<tr>
+<td>prefixOnly</td>
+<td><strong>Boolean</strong></td>
+<td>false</td>
+<td>Only return ngrams from start of word. (It gives more precise results) the prefix</td>
+</tr>
+<tr>
+<td>exact</td>
+<td><strong>Boolean</strong></td>
+<td>false</td>
+<td>Matches on a phrase, as opposed to individual terms</td>
+</tr>
+</tbody></table>
+<p>Example:</p>
+<pre><code class="language-javascript"><span class="hl-9">/* With string that returns a Promise */</span><br/><span class="hl-6">User</span><span class="hl-0">.</span><span class="hl-3">fuzzySearch</span><span class="hl-0">(</span><span class="hl-4">&quot;jo&quot;</span><span class="hl-0">).</span><span class="hl-3">then</span><span class="hl-0">(</span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-6">log</span><span class="hl-0">).</span><span class="hl-3">catch</span><span class="hl-0">(</span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-6">error</span><span class="hl-0">);</span><br/><br/><span class="hl-9">/* With additional options that returns a Promise */</span><br/><span class="hl-6">User</span><span class="hl-0">.</span><span class="hl-3">fuzzySearch</span><span class="hl-0">({ </span><span class="hl-6">query:</span><span class="hl-0"> </span><span class="hl-4">&quot;jo&quot;</span><span class="hl-0">, </span><span class="hl-6">prefixOnly:</span><span class="hl-0"> </span><span class="hl-1">true</span><span class="hl-0">, </span><span class="hl-6">minSize:</span><span class="hl-0"> </span><span class="hl-8">4</span><span class="hl-0"> })</span><br/><span class="hl-0">  .</span><span class="hl-3">then</span><span class="hl-0">(</span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-6">log</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-3">catch</span><span class="hl-0">(</span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-6">error</span><span class="hl-0">);</span><br/><br/><span class="hl-9">/* With additional queries that returns a Promise */</span><br/><span class="hl-6">User</span><span class="hl-0">.</span><span class="hl-3">fuzzySearch</span><span class="hl-0">(</span><span class="hl-4">&quot;jo&quot;</span><span class="hl-0">, { </span><span class="hl-6">age:</span><span class="hl-0"> { </span><span class="hl-6">$gt:</span><span class="hl-0"> </span><span class="hl-8">18</span><span class="hl-0"> } })</span><br/><span class="hl-0">  .</span><span class="hl-3">then</span><span class="hl-0">(</span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-6">log</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-3">catch</span><span class="hl-0">(</span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-6">error</span><span class="hl-0">);</span><br/><br/><span class="hl-9">/* With string and a callback */</span><br/><span class="hl-6">User</span><span class="hl-0">.</span><span class="hl-3">fuzzySearch</span><span class="hl-0">(</span><span class="hl-4">&quot;jo&quot;</span><span class="hl-0">, (</span><span class="hl-6">err</span><span class="hl-0">, </span><span class="hl-6">doc</span><span class="hl-0">) </span><span class="hl-1">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">  </span><span class="hl-5">if</span><span class="hl-0"> (</span><span class="hl-6">err</span><span class="hl-0">) {</span><br/><span class="hl-0">    </span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-3">error</span><span class="hl-0">(</span><span class="hl-6">err</span><span class="hl-0">);</span><br/><span class="hl-0">  } </span><span class="hl-5">else</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-3">log</span><span class="hl-0">(</span><span class="hl-6">doc</span><span class="hl-0">);</span><br/><span class="hl-0">  }</span><br/><span class="hl-0">});</span><br/><br/><span class="hl-9">/* With additional queries and callback */</span><br/><span class="hl-6">User</span><span class="hl-0">.</span><span class="hl-3">fuzzySearch</span><span class="hl-0">(</span><span class="hl-4">&quot;jo&quot;</span><span class="hl-0">, { </span><span class="hl-6">age:</span><span class="hl-0"> { </span><span class="hl-6">$gt:</span><span class="hl-0"> </span><span class="hl-8">18</span><span class="hl-0"> } }, (</span><span class="hl-6">err</span><span class="hl-0">, </span><span class="hl-6">doc</span><span class="hl-0">) </span><span class="hl-1">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">  </span><span class="hl-5">if</span><span class="hl-0"> (</span><span class="hl-6">err</span><span class="hl-0">) {</span><br/><span class="hl-0">    </span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-3">error</span><span class="hl-0">(</span><span class="hl-6">err</span><span class="hl-0">);</span><br/><span class="hl-0">  } </span><span class="hl-5">else</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-6">console</span><span class="hl-0">.</span><span class="hl-3">log</span><span class="hl-0">(</span><span class="hl-6">doc</span><span class="hl-0">);</span><br/><span class="hl-0">  }</span><br/><span class="hl-0">});</span>
+</code></pre>
+
+<a href="#working-with-pre-existing-data" id="working-with-pre-existing-data" style="color: inherit; text-decoration: none;">
+  <h2>Working with pre-existing data</h2>
+</a>
+<p>The plugin creates indexes for the selected fields. In the below example the new indexes will be <code>firstName_fuzzy</code> and <code>lastName_fuzzy</code>. Also, each document will have the fields <code>firstName_fuzzy</code>[String] and <code>lastName_fuzzy</code>[String]. These arrays will contain the anagrams for the selected fields.</p>
+<pre><code class="language-javascript"><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">mongoose_fuzzy_searching</span><span class="hl-0"> = </span><span class="hl-3">require</span><span class="hl-0">(</span><span class="hl-4">&quot;@imranbarbhuiya/mongoose-fuzzy-searching&quot;</span><span class="hl-0">);</span><br/><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">UserSchema</span><span class="hl-0"> = </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">Schema</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-6">firstName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">lastName:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">email:</span><span class="hl-0"> </span><span class="hl-7">String</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-6">age:</span><span class="hl-0"> </span><span class="hl-7">Number</span><span class="hl-0">,</span><br/><span class="hl-0">});</span><br/><br/><span class="hl-6">UserSchema</span><span class="hl-0">.</span><span class="hl-3">plugin</span><span class="hl-0">(</span><span class="hl-6">mongoose_fuzzy_searching</span><span class="hl-0">, {</span><br/><span class="hl-0">  </span><span class="hl-6">fields:</span><span class="hl-0"> [</span><span class="hl-4">&quot;firstName&quot;</span><span class="hl-0">, </span><span class="hl-4">&quot;lastName&quot;</span><span class="hl-0">],</span><br/><span class="hl-0">});</span>
+</code></pre>
+<p>In other words, this plugin creates anagrams when you create or update a document. All the pre-existing documents won&#39;t contain these fuzzy arrays, so <code>fuzzySearch</code> function, will not be able to find them.</p>
+
+<a href="#update-all-pre-existing-documents-with-ngrams" id="update-all-pre-existing-documents-with-ngrams" style="color: inherit; text-decoration: none;">
+  <h3>Update all pre-existing documents with ngrams</h3>
+</a>
+<p>In order to create anagrams for pre-existing documents, you should update each document. The below example, updates the <code>firstName</code> attribute to every document on the collection <code>User</code>.</p>
+<pre><code class="language-javascript"><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">cursor</span><span class="hl-0"> = </span><span class="hl-6">Model</span><span class="hl-0">.</span><span class="hl-3">find</span><span class="hl-0">().</span><span class="hl-3">cursor</span><span class="hl-0">();</span><br/><span class="hl-6">cursor</span><span class="hl-0">.</span><span class="hl-3">next</span><span class="hl-0">(</span><span class="hl-1">function</span><span class="hl-0"> (</span><span class="hl-6">error</span><span class="hl-0">, </span><span class="hl-6">doc</span><span class="hl-0">) {</span><br/><span class="hl-0">  </span><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">obj</span><span class="hl-0"> = </span><span class="hl-6">attrs</span><span class="hl-0">.</span><span class="hl-3">reduce</span><span class="hl-0">((</span><span class="hl-6">acc</span><span class="hl-0">, </span><span class="hl-6">attr</span><span class="hl-0">) </span><span class="hl-1">=&gt;</span><span class="hl-0"> ({ ...</span><span class="hl-6">acc</span><span class="hl-0">, </span><span class="hl-6">[attr]:</span><span class="hl-0"> </span><span class="hl-6">doc</span><span class="hl-0">[</span><span class="hl-6">attr</span><span class="hl-0">] }), {});</span><br/><span class="hl-0">  </span><span class="hl-5">return</span><span class="hl-0"> </span><span class="hl-6">Model</span><span class="hl-0">.</span><span class="hl-3">findByIdAndUpdate</span><span class="hl-0">(</span><span class="hl-6">doc</span><span class="hl-0">.</span><span class="hl-6">_id</span><span class="hl-0">, </span><span class="hl-6">obj</span><span class="hl-0">);</span><br/><span class="hl-0">});</span>
+</code></pre>
+
+<a href="#delete-old-ngrams-from-all-documents" id="delete-old-ngrams-from-all-documents" style="color: inherit; text-decoration: none;">
+  <h3>Delete old ngrams from all documents</h3>
+</a>
+<p>In the previous example, we set <code>firstName</code> and <code>lastName</code> as the fuzzy attributes. If you remove the <code>firstName</code> from the fuzzy fields, the <code>firstName_fuzzy</code> array will not be removed by the collection. If you want to remove the array on each document you have to unset that value.</p>
+<pre><code class="language-javascript"><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">cursor</span><span class="hl-0"> = </span><span class="hl-6">Model</span><span class="hl-0">.</span><span class="hl-3">find</span><span class="hl-0">().</span><span class="hl-3">cursor</span><span class="hl-0">();</span><br/><span class="hl-6">cursor</span><span class="hl-0">.</span><span class="hl-3">next</span><span class="hl-0">(</span><span class="hl-1">function</span><span class="hl-0"> (</span><span class="hl-6">error</span><span class="hl-0">, </span><span class="hl-6">doc</span><span class="hl-0">) {</span><br/><span class="hl-0">  </span><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">$unset</span><span class="hl-0"> = </span><span class="hl-6">attrs</span><span class="hl-0">.</span><span class="hl-3">reduce</span><span class="hl-0">(</span><br/><span class="hl-0">    (</span><span class="hl-6">acc</span><span class="hl-0">, </span><span class="hl-6">attr</span><span class="hl-0">) </span><span class="hl-1">=&gt;</span><span class="hl-0"> ({ ...</span><span class="hl-6">acc</span><span class="hl-0">, </span><span class="hl-6">[</span><span class="hl-4">`</span><span class="hl-1">${</span><span class="hl-6">attr</span><span class="hl-1">}</span><span class="hl-4">_fuzzy`</span><span class="hl-6">]:</span><span class="hl-0"> </span><span class="hl-8">1</span><span class="hl-0"> }),</span><br/><span class="hl-0">    {}</span><br/><span class="hl-0">  );</span><br/><span class="hl-0">  </span><span class="hl-5">return</span><span class="hl-0"> </span><span class="hl-6">Model</span><span class="hl-0">.</span><span class="hl-3">findByIdAndUpdate</span><span class="hl-0">(</span><br/><span class="hl-0">    </span><span class="hl-6">data</span><span class="hl-0">.</span><span class="hl-6">_id</span><span class="hl-0">,</span><br/><span class="hl-0">    { </span><span class="hl-6">$unset</span><span class="hl-0"> },</span><br/><span class="hl-0">    { </span><span class="hl-6">new:</span><span class="hl-0"> </span><span class="hl-1">true</span><span class="hl-0">, </span><span class="hl-6">strict:</span><span class="hl-0"> </span><span class="hl-1">false</span><span class="hl-0"> }</span><br/><span class="hl-0">  );</span><br/><span class="hl-0">});</span>
+</code></pre>
+
+<a href="#testing-and-code-coverage" id="testing-and-code-coverage" style="color: inherit; text-decoration: none;">
+  <h2>Testing and code coverage</h2>
+</a>
+
+<a href="#all-tests" id="all-tests" style="color: inherit; text-decoration: none;">
+  <h3>All tests</h3>
+</a>
+<p>We use <a href="https://jestjs.io/">jest</a> for all of our unit and integration tests.</p>
+<pre><code class="language-bash"><span class="hl-0">npm </span><span class="hl-3">test</span>
+</code></pre>
+<p><em>Note: this will run all suites <strong>serially</strong> to avoid mutliple concurrent connection on the db.</em></p>
+<p>This will run the tests using a memory database. If you wish for any reason to run the tests using an actual connection on a mongo instance, add the environment variable <code>MONGO_DB</code>:</p>
+<pre><code class="language-bash"><span class="hl-0">docker run --name mongo_fuzzy_test -p 27017:27017 -d mongo</span><br/><span class="hl-0">MONGO_DB=true npm </span><span class="hl-3">test</span>
+</code></pre>
+
+<a href="#available-test-suites" id="available-test-suites" style="color: inherit; text-decoration: none;">
+  <h3>Available test suites</h3>
+</a>
+
+<a href="#unit-tests" id="unit-tests" style="color: inherit; text-decoration: none;">
+  <h4>unit tests</h4>
+</a>
+<pre><code class="language-bash"><span class="hl-0">npm run test:unit</span>
+</code></pre>
+
+<a href="#integration-tests" id="integration-tests" style="color: inherit; text-decoration: none;">
+  <h4>Integration tests</h4>
+</a>
+<pre><code class="language-bash"><span class="hl-0">npm run test:integration</span>
+</code></pre>
+
+<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+  <h2>License</h2>
+</a>
+<p>MIT License</p>
+
+<a href="#credit" id="credit" style="color: inherit; text-decoration: none;">
+  <h2>Credit</h2>
+</a>
+<p>Credit goes to the original package owner <a href="https://github.com/VassilisPallas/mongoose-fuzzy-searching">VassilisPallas</a></p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/MongoosePluginModel.html" class="tsd-kind-icon">Mongoose<wbr/>Plugin<wbr/>Model</a></li><li class="tsd-kind-variable"><a href="modules.html#confidenceScore" class="tsd-kind-icon">confidence<wbr/>Score</a></li><li class="tsd-kind-variable"><a href="modules.html#sort" class="tsd-kind-icon">sort</a></li><li class="tsd-kind-function"><a href="modules.html#default" class="tsd-kind-icon">default</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
