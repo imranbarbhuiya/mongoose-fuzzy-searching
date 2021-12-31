@@ -76,7 +76,7 @@ In the below example, we have a `User` collection and we want to make fuzzy sear
 
 ```javascript
 const { Schema } = require("mongoose");
-const mongoose_fuzzy_searching = require("mongoose-fuzzy-searching");
+const mongoose_fuzzy_searching = require("@imranbarbhuiya/mongoose-fuzzy-searching");
 
 const UserSchema = new Schema({
   firstName: String,
@@ -133,7 +133,7 @@ try {
 ### Example with typescript
 
 ```ts
-import mongoose_fuzzy_searching, {MongoosePluginModel} from "mongoose-fuzzy-searching";
+import mongoose_fuzzy_searching, {MongoosePluginModel} from "@imranbarbhuiya/mongoose-fuzzy-searching";
 
 export interface IUser extends mongoose.Document{
   firstName: string;
@@ -165,7 +165,7 @@ Fields attribute is mandatory and should be either an array of `Strings` or an a
 If you want to use the default options for all your fields, you can just pass them as a string.
 
 ```javascript
-const mongoose_fuzzy_searching = require("mongoose-fuzzy-searching");
+const mongoose_fuzzy_searching = require("@imranbarbhuiya/mongoose-fuzzy-searching");
 
 const UserSchema = new Schema({
   firstName: String,
@@ -262,7 +262,7 @@ Middlewares is an optional `Object` that can contain custom `pre` middlewares. T
 If you want to add any of the middlewares above, you can add it directly on the plugin.
 
 ```javascript
-const mongoose_fuzzy_searching = require("mongoose-fuzzy-searching");
+const mongoose_fuzzy_searching = require("@imranbarbhuiya/mongoose-fuzzy-searching");
 
 const UserSchema = new Schema({
   firstName: String,
@@ -358,7 +358,7 @@ User.fuzzySearch("jo", { age: { $gt: 18 } }, (err, doc) => {
 The plugin creates indexes for the selected fields. In the below example the new indexes will be `firstName_fuzzy` and `lastName_fuzzy`. Also, each document will have the fields `firstName_fuzzy`[String] and `lastName_fuzzy`[String]. These arrays will contain the anagrams for the selected fields.
 
 ```javascript
-const mongoose_fuzzy_searching = require("mongoose-fuzzy-searching");
+const mongoose_fuzzy_searching = require("@imranbarbhuiya/mongoose-fuzzy-searching");
 
 const UserSchema = new Schema({
   firstName: String,
