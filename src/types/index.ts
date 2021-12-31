@@ -86,5 +86,7 @@ export interface MongooseQueryHelpers<T extends mongoose.Document> {
 
 export interface MongoosePluginModel<T extends mongoose.Document>
   extends mongoose.Model<T, MongooseQueryHelpers<T>> {
-  fuzzySearch(...args: StaticFuzzyParameters): mongoose.Query<T, any>;
+  fuzzySearch(
+    ...args: StaticFuzzyParameters
+  ): mongoose.QueryWithHelpers<Array<T>, any>;
 }
