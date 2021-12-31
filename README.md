@@ -1,6 +1,6 @@
 ![npm](https://img.shields.io/npm/v/@imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge)
 ![npm](https://img.shields.io/npm/dw/@imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge)
+![MIT](https://img.shields.io/github/license/imranbarbhuiya/mongoose-fuzzy-searching?style=for-the-badge)
 ![Lint Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-searching/Lint/main?label=Lint&logo=eslint&style=for-the-badge)
 ![Build Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-searching/Build/main?label=Build&logo=typescript&style=for-the-badge)
 ![Test Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/mongoose-fuzzy-searching/Test/main?label=Test&style=for-the-badge&logo=Jest)
