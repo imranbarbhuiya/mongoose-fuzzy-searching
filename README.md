@@ -9,17 +9,14 @@
 
 # Mongoose Fuzzy Searching
 
+mongoose-fuzzy-searching is simple and lightweight plugin that enables fuzzy searching in documents in MongoDB.
+This code is based on [this article](https://medium.com/xeneta/fuzzy-search-with-mongodb-and-python-57103928ee5d).
+
 ## Note
 
 \*Notice: This is a fork of the original [Mongoose Fuzzy Searching](https://github.com/VassilisPallas/mongoose-fuzzy-searching)
 
 As that project is no longer maintained, So I'm going to work on it for my personal use. I'll recommend use the original one. Also if VassilisPallas starts maintaining the original project, I'll use that instead.
-
-mongoose-fuzzy-searching is simple and lightweight plugin that enables fuzzy searching in documents in MongoDB.
-This code is based on [this article](https://medium.com/xeneta/fuzzy-search-with-mongodb-and-python-57103928ee5d).
-
-npm: [npm](https://www.npmjs.com/package/@imranbarbhuiya/mongoose-fuzzy-searching)
-docs: [docs](https://imranbarbhuiya.github.io/mongoose-fuzzy-searching/)
 
 - [Mongoose Fuzzy Searching](#mongoose-fuzzy-searching)
   - [Note](#note)
@@ -142,15 +139,19 @@ import mongoose_fuzzy_searching, {MongoosePluginModel} from "@imranbarbhuiya/mon
 export interface IUser extends mongoose.Document{
   firstName: string;
   lastName: string;
+  email: string;
+  age: number;
 }
 
 const UserSchema<IUser> = new Schema({
   firstName: String,
   lastName: String,
+  email: String,
+  age: Number,
 });
 
 UserSchema.plugin(mongoose_fuzzy_searching, {
-  fields: ["firstName"],
+  fields: ["firstName", "lastName"],
 });
 
 const UserModel = mongoose.model<IUser>("User", UserSchema) as MongoosePluginModel<IUser>

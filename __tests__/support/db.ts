@@ -18,23 +18,18 @@ export type ModelTestOptions = {
     fn: any;
   }[];
 };
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require("dotenv").config();
-const getURL = async (): Promise<string> => {
-  if (process.env.MONGO_SRV) return process.env.MONGO_SRV;
-  const mongod = await MongoMemoryServer.create();
-  mongod.start();
-  return mongod.getUri();
-};
+let mongod: MongoMemoryServer;
 
 export const openConnection = async (): Promise<typeof mongoose> => {
-  const uri = await getURL();
+  mongod = await MongoMemoryServer.create();
+  const uri = mongod.getUri();
   return mongoose.connect(uri);
 };
 
 export const closeConnection = async (): Promise<void> => {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
+  await mongod.stop();
 };
 
 class TestModel<T extends Document, U> {

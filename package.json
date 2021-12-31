@@ -48,7 +48,6 @@
     "@types/jest": "^27.4.0",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",
-    "dotenv": "^10.0.0",
     "eslint": "^8.5.0",
     "jest": "^27.4.5",
     "mongodb-memory-server": "^8.1.0",
